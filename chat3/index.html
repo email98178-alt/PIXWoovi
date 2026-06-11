@@ -1248,6 +1248,15 @@ function showIntroCard() {
 // ── ORDER CONFIRMATION ───────────────────────────────
 let currentConfirmationBlock = null;
 let confirmationResolve = null;
+let confirmationMsgIndex = 0;
+const confirmationMessages = [
+  "Por favor, verifique se esta tudo ok",
+  "Verifique abaixo para prosseguir, basta clicar em - Sim, Prosseguir",
+  "Pode conferir os dados do pedido para prosseguirmos?",
+  "Preciso que verifique abaixo para prosseguirmos",
+  "Assim que você confirmar no botão 'Sim, Prosseguir', a gente continua "
+];
+
 
 function showOrderConfirmation() {
   // Criamos esta variável global (window) para saber que o bloco já apareceu
@@ -1653,11 +1662,18 @@ async function doSend() {
 
     // ── RE-ENVIA BLOCO DE CONFIRMAÇÃO SE AINDA PENDENTE ──────────────────────
   // Agora só re-envia se o passo for 3 E se o bloco já tiver sido mostrado uma vez
+    // ── RE-ENVIA BLOCO DE CONFIRMAÇÃO SE AINDA PENDENTE ──────────────────────
   if (window._currentFlowStep === 3 && window._orderConfirmationShown) {
-    await agentSay('Por favor, verifique se esta tudo ok', true, true);
+    const msg = confirmationMessages[confirmationMsgIndex];
+    await agentSay(msg, true, true);
+    
+    // Avança para a próxima mensagem da lista (volta ao início se chegar ao fim)
+    confirmationMsgIndex = (confirmationMsgIndex + 1) % confirmationMessages.length;
+    
     currentConfirmationBlock = null;   // força criação de novo bloco
     showOrderConfirmation();            // reutiliza o mesmo confirmationResolve → flow continua normalmente
   }
+
 
   sendBtnEl.disabled = true;
   scrollDown(true);
