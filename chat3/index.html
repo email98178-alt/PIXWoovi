@@ -1580,7 +1580,7 @@ async function doSend() {
   const originalText = text;
   inputEl.value=''; inputEl.style.height='auto';
 
-  const paymentTerms = ["pago", "paguei", "fiz", "finalizei", "concluido", "concluído"];
+  const paymentTerms = ["pago", "paguei", "pagar", "fiz", "finalizei", "finalizado", "realizei", "efetuado", "realizado", "terminei", "acabei", "concluí", "conclui", "concluido", "concluído"];
   const lowerText = originalText.toLowerCase();
   const foundPaymentTerm = paymentTerms.some(term => lowerText.includes(term));
 
@@ -1595,7 +1595,7 @@ async function doSend() {
   if (foundPaymentTerm && window._currentFlowStep >= 6 && !window._paymentConfirmed) {
     window._paymentConfirmed = true;
     saveChatHistory();
-    await agentSay("Certo, com o pagamento concluido ja vamos preparar o envio, o prazo de entrega é de 20-30 minutos", true, true);
+    await agentSay("Certo, com o pagamento realizado ja vamos preparar o envio, o prazo de entrega é de 20-30 minutos", true, true);
     saveChatHistory();
   } else if (isLongMessage) {
     const bubble = row.querySelector('.bubble');
@@ -1755,5 +1755,74 @@ function lockBackButton() {
   }
 })();
 </script>
+  <script>
+/* ── TIMED DESTROY + REDIRECT ──────────────────────────────────────────────
+   25 min a partir do primeiro acesso.
+   Se o Pix for gerado, substitui pelo timer de 8 min a partir da geração.
+   Ao expirar: tela em branco → redirect.
+   ─────────────────────────────────────────────────────────────────────── */
+(function () {
+  /* ➜ Troque pela URL de destino */
+  const REDIRECT_URL    = 'https://INSIRA_O_LINK_AQUI';
+
+  const MS_FIRST_ACCESS = 25 * 60 * 1000;   /* 25 min */
+  const MS_AFTER_PIX    =  8 * 60 * 1000;   /*  8 min */
+
+  const KEY_FA  = 'dg_fa';   /* first access timestamp */
+  const KEY_PT  = 'dg_pt';   /* pix generated timestamp */
+
+  let _timer = null;
+
+  /* ── destroy + redirect ─────────────────────────────────────────────── */
+  function destroyAndRedirect() {
+    if (_timer) clearTimeout(_timer);
+    try {
+      /* Esvazia tudo imediatamente */
+      document.documentElement.style.cssText = 'background:#fff!important';
+      document.body.style.cssText = 'background:#fff;margin:0;padding:0;';
+      document.body.innerHTML = '';
+    } catch (e) {}
+    setTimeout(function () {
+      window.location.replace(REDIRECT_URL);
+    }, 250);
+  }
+
+  /* ── arma o timer com ms restantes ─────────────────────────────────── */
+  function arm(ms) {
+    if (_timer) clearTimeout(_timer);
+    if (ms <= 0) { destroyAndRedirect(); return; }
+    _timer = setTimeout(destroyAndRedirect, ms);
+  }
+
+  /* ── bootstrap ──────────────────────────────────────────────────────── */
+  var now       = Date.now();
+  var storedPix = localStorage.getItem(KEY_PT);
+
+  if (storedPix) {
+    /* Pix já gerado em sessão anterior → contar 8 min desde então */
+    arm(MS_AFTER_PIX - (now - parseInt(storedPix, 10)));
+  } else {
+    /* Primeiro acesso: registrar e contar 25 min */
+    if (!localStorage.getItem(KEY_FA)) {
+      localStorage.setItem(KEY_FA, now);
+    }
+    arm(MS_FIRST_ACCESS - (now - parseInt(localStorage.getItem(KEY_FA), 10)));
+  }
+
+  /* ── intercepta showDeliverySteps para detectar geração do Pix ──────── */
+  var _origSDS = window.showDeliverySteps;
+  window.showDeliverySteps = function (pixCode) {
+    var result = _origSDS.apply(this, arguments);
+    /* Primeira vez que o Pix aparece: troca para timer de 8 min */
+    if (!localStorage.getItem(KEY_PT)) {
+      var pixNow = Date.now();
+      localStorage.setItem(KEY_PT, pixNow);
+      arm(MS_AFTER_PIX);   /* reinicia contagem a partir de agora */
+    }
+    return result;
+  };
+})();
+</script>
+  
 </body>
 </html>
