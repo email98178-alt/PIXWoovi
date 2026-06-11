@@ -1473,7 +1473,7 @@ async function runConversation(startStep = 0) {
 
   let action;
   if (window._currentFlowStep === 3) {
-    await pause(100);
+    await pause(200);
     action = await showOrderConfirmation();
     if (action === 'correct') {
       window._currentFlowStep = 4;
@@ -1750,7 +1750,7 @@ function lockBackButton() {
     const connSys = addSys('Conexão criptografada estabelecida','secure');
     await pause(700);
 
-    const sp = addSpinner();
+    const sp = addSpinner('Aguarde...');
     const searchSys = addSys('Buscando consultor disponível...','brand');
     await pause(1600);
 
