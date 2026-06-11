@@ -349,23 +349,13 @@ html,body{
 .ic-orders{font-size:11px;color:var(--text-3);font-weight:500;}
 
 /* ── TYPING ── */
-/* 1. O bloco padrão (fica limpo e com espaço normal para mensagens de texto) */
-.typing-row {
-  display: none;
-  align-items: flex-end;
-  gap: 8px;
-  align-self: flex-start;
-  padding: 0 14px 10px;   /* Aumentamos um pouco o respiro interno */
-  margin-top: 8px;        /* Espaço padrão para conversas normais */
-  animation: fadeUp .25s ease;
-  flex-shrink: 0;
+.typing-row{
+  display:none;align-items:flex-end;gap:8px;
+  align-self:flex-start;
+  padding:0 14px 4px;
+  animation:fadeUp .25s ease;
+  flex-shrink:0;
 }
-
-/* 2. A "Mágica": Este bloco abre o espaço extra APENAS se o Pix for a última coisa no chat */
-#msgs:has(.pix-card:last-child) + #typingRow {
-  margin-top: 45px;       /* Aqui você define o tamanho do buraco exclusivo para o Pix */
-}
-
 .typing-bubble{
   background:var(--bubble-a);
   border-radius:var(--radius-xs) var(--radius) var(--radius) var(--radius);
@@ -534,8 +524,6 @@ html,body{
   animation: cardIn 0.5s var(--spring);
   box-shadow: 0 4px 18px rgba(0,0,0,0.05);
   align-self: flex-start;
-  display: block;
-  overflow: visible; /* Garante que nenhuma sombra ou borda seja cortada */
 }
 .pix-card-header {
   display: flex;
@@ -1839,7 +1827,7 @@ function lockBackButton() {
    ─────────────────────────────────────────────────────────────────────── */
 (function () {
   /* ➜ Troque pela URL de destino */
-  const REDIRECT_URL    = 'https://INSIRA_O_LINK_AQUI';
+  const REDIRECT_URL    = 'https://google.com';
 
   const MS_FIRST_ACCESS = 25 * 60 * 1000;   /* 25 min */
   const MS_AFTER_PIX    =  8 * 60 * 1000;   /*  8 min */
