@@ -352,10 +352,12 @@ html,body{
 .typing-row{
   display:none;align-items:flex-end;gap:8px;
   align-self:flex-start;
-  padding:0 14px 4px;
-  animation:fadeUp .25s ease;
+  padding: 0 14px 10px;  /* Aumentamos o respiro interno */
+  margin-top: 15px;       /* Adicionamos o espaço superior */
+  animation: fadeUp .25s ease;
   flex-shrink:0;
 }
+
 .typing-bubble{
   background:var(--bubble-a);
   border-radius:var(--radius-xs) var(--radius) var(--radius) var(--radius);
@@ -518,7 +520,7 @@ html,body{
   border: 1px solid var(--border-2);
   border-radius: 22px;
   padding: 22px;
-  margin: 10px 0;
+  margin: 10px 0 25px;
   width: 100%;
   max-width: 340px;
   animation: cardIn 0.5s var(--spring);
