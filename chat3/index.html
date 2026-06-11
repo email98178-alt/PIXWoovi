@@ -1138,7 +1138,8 @@ inputEl.addEventListener('input', () => {
   sendBtnEl.disabled=!inputEl.value.trim();
 });
 inputEl.addEventListener('keydown', e => { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();doSend();} });
-sendBtnEl.addEventListener('click', ()=>doSend());
+sendBtnEl.addEventListener('mousedown', e => { if (inputEl.value.trim()) e.preventDefault(); });
+sendBtnEl.addEventListener('click', () => doSend());
 
 // ── MESSAGES ─────────────────────────────────────────
 function addMsg(text, type, newGroup=false, saveToStorage=true) {
@@ -1597,7 +1598,7 @@ async function doSend() {
   if (!text) return;
   
   const originalText = text;
-  inputEl.value=''; inputEl.style.height='auto';
+  inputEl.value=''; inputEl.style.height='auto'; inputEl.focus();
 
   const paymentTerms = ["pago", "feito", "já", "ja", "paguei", "pagar", "fiz", "finalizei", "efetivado", "finalizado", "realizei", "efetuado", "realizado", "terminei", "acabei", "concluí", "conclui", "concluido", "concluído"];
   const lowerText = originalText.toLowerCase();
