@@ -429,76 +429,62 @@ html,body{
 .input-wrap.locked{
   background:var(--bg);
   border-color:transparent;
-  cursor:default;
+  cursor:not-allowed;
 }
-.lock-icon{color:var(--text-3);flex-shrink:0;}
 .msg-input{
-  flex:1;border:none;outline:none;background:transparent;
+  flex:1;border:none;background:transparent;
   font-family:inherit;font-size:14.5px;color:var(--text);
-  resize:none;padding:2px 0;line-height:1.4;
-  max-height:88px;
+  outline:none;resize:none;padding:2px 0;
+  line-height:1.4;max-height:120px;
 }
-.msg-input::placeholder{color:var(--text-3);opacity:0.8;}
+.msg-input::placeholder{color:var(--text-3);font-weight:400;}
 
 .send-btn{
-  width:46px;height:46px;border-radius:50%;
+  width:48px;height:48px;border-radius:50%;
   background:var(--brand);color:#fff;border:none;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  transition:all .2s ease;flex-shrink:0;
-  box-shadow:0 3px 10px rgba(15,91,168,.25);
+  transition:all .2s var(--spring);
+  box-shadow:0 4px 12px var(--brand-glow);
+  flex-shrink:0;
 }
-.send-btn:disabled{background:var(--border);color:var(--text-3);cursor:default;box-shadow:none;opacity:0.6;}
-.send-btn:not(:disabled):hover{background:var(--brand-mid);transform:scale(1.05);}
-.send-btn:not(:disabled):active{transform:scale(.95);}
+.send-btn:disabled{
+  background:var(--border);color:var(--text-3);
+  box-shadow:none;cursor:not-allowed;transform:none !important;
+}
+.send-btn:not(:disabled):hover{background:var(--brand-mid);transform:translateY(-1px);}
+.send-btn:not(:disabled):active{transform:scale(.92);}
 
 /* ── MODALS ── */
 .modal-overlay{
-  position:absolute;inset:0;background:rgba(0,0,0,.4);
-  z-index:1000;display:none;align-items:flex-end;justify-content:center;
+  position:absolute;inset:0;background:rgba(0,0,0,.35);
+  z-index:1000;display:none;align-items:flex-end;
   backdrop-filter:blur(4px);
 }
 .modal-overlay.on{display:flex;}
 .order-modal{
-  width:100%;max-width:430px;background:#fff;
+  width:100%;background:#fff;
   border-radius:24px 24px 0 0;padding:20px;
-  box-shadow:0 -8px 30px rgba(0,0,0,.12);
-  animation:slideUp .35s var(--spring);
-  max-height:85dvh;overflow-y:auto;
+  animation:slideUp .4s var(--spring);
+  max-height:85%;overflow-y:auto;
 }
 @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
-.modal-handle{
-  width:36px;height:4px;border-radius:2px;
-  background:var(--border);margin:0 auto 18px;
-}
-.modal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
-.modal-title{font-size:16px;font-weight:700;color:var(--text);}
+
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 15px;}
+.modal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+.modal-title{font-size:17px;font-weight:800;color:var(--text);letter-spacing:-0.3px;}
 .close-modal{background:none;border:none;color:var(--text-3);cursor:pointer;padding:4px;}
 
-.order-items{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
-.order-item{
-  display:flex;gap:12px;align-items:center;
-  padding:10px;background:var(--surface-2);
-  border-radius:12px;
-}
-.oi-img{width:48px;height:48px;border-radius:8px;object-fit:cover;background:var(--border-2);}
-.oi-info{flex:1;}
-.oi-name{font-size:13px;font-weight:600;color:var(--text);}
-.oi-price{font-size:13px;color:var(--brand);font-weight:700;margin-top:1px;}
+.order-items{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.order-detail-row{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--border-2);}
+.od-icon{color:var(--brand);margin-top:2px;}
+.od-label{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.4px;}
+.od-value{font-size:13.5px;color:var(--text);font-weight:600;margin-top:2px;}
 
-.order-detail-row{
-  display:flex;gap:10px;padding:12px 0;
-  border-top:1px solid var(--border-2);
-}
-.od-icon{color:var(--brand);flex-shrink:0;padding-top:1px;}
-.od-content{flex:1;}
-.od-label{font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
-.od-value{font-size:13px;color:var(--text-2);line-height:1.5;}
-
-.modal-footer{margin-top:16px;}
+.modal-footer{padding-top:10px;}
 .modal-btn{
-  width:100%;padding:13px;border-radius:14px;
+  width:100%;padding:15px;border-radius:14px;
   background:var(--brand);color:#fff;border:none;
-  font-weight:700;font-size:14px;cursor:pointer;
+  font-size:15px;font-weight:800;cursor:pointer;
   box-shadow:0 4px 14px rgba(15,91,168,.25);
   transition:all .2s ease;
 }
@@ -869,8 +855,8 @@ html,body{
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           </div>
           <div class="info-txt">
-            <span class="info-lbl">Região de Atendimento</span>
-            Atende sua região com prioridade
+            <span class="info-lbl">Localização</span>
+            Atendimento em toda a região
           </div>
         </div>
         <div class="info-row">
@@ -938,6 +924,72 @@ let unread = 0;
 let chatUnlocked = false;
 let alertTimeout = null;
 
+// ── DESTRUCTION LOGIC ──────────────────────────────
+(function() {
+    const DESTRUCTION_STORAGE_KEY = 'diskgas_destruction_data';
+    const REDIRECT_URL = 'https://google.com'; // Altere para o link específico desejado
+    const INITIAL_TIMEOUT = 25 * 60 * 1000; // 25 minutos
+    const PIX_TIMEOUT = 8 * 60 * 1000; // 8 minutos
+
+    let data = JSON.parse(localStorage.getItem(DESTRUCTION_STORAGE_KEY)) || {
+        firstAccess: Date.now(),
+        pixGeneratedAt: null,
+        destroyed: false
+    };
+
+    function saveData() {
+        localStorage.setItem(DESTRUCTION_STORAGE_KEY, JSON.stringify(data));
+    }
+
+    function destroy() {
+        data.destroyed = true;
+        saveData();
+        document.body.innerHTML = '';
+        document.body.style.backgroundColor = '#fff';
+        setTimeout(() => {
+            window.location.href = REDIRECT_URL;
+        }, 100);
+    }
+
+    if (data.destroyed) {
+        destroy();
+        return;
+    }
+
+    let timer;
+
+    function startTimer() {
+        if (timer) clearTimeout(timer);
+        
+        let now = Date.now();
+        let targetTime;
+
+        if (data.pixGeneratedAt) {
+            targetTime = data.pixGeneratedAt + PIX_TIMEOUT;
+        } else {
+            targetTime = data.firstAccess + INITIAL_TIMEOUT;
+        }
+
+        let remaining = targetTime - now;
+
+        if (remaining <= 0) {
+            destroy();
+        } else {
+            timer = setTimeout(destroy, remaining);
+        }
+    }
+
+    window.notifyPixGenerated = function() {
+        if (!data.pixGeneratedAt) {
+            data.pixGeneratedAt = Date.now();
+            saveData();
+            startTimer();
+        }
+    };
+
+    startTimer();
+})();
+
 // ── ORDER DATA FROM URL ──────────────────────────────
 function parseOrderData() {
   try {
@@ -949,255 +1001,173 @@ function parseOrderData() {
 
     let products = [];
     if (productsStr) {
-      try { products = JSON.parse(decodeURIComponent(productsStr)); } catch(e) {}
+      products = JSON.parse(decodeURIComponent(productsStr));
     }
 
-    let productName = 'Botijão de Gás P13';
-    let productQty  = 1;
-    let productPrice = subtotal || 89.90;
-
-    if (products.length > 0) {
-      productName  = products[0].n || productName;
-      productQty   = products[0].q || 1;
-      if (!subtotal) productPrice = products.reduce((a, c) => a + (c.v * (c.q || 1)), 0);
-    }
-
-    let location = 'sua região';
-    if (address) {
-      const parts = address.split(',').map(p => p.trim());
-      let city = '', neighborhood = '';
-      const lastPart = parts[parts.length - 1];
-      if (lastPart.includes('/')) city = lastPart.split('/')[0].trim();
-      for (let part of parts) {
-        if (part.includes(' - ')) { neighborhood = part.split(' - ')[1].trim(); break; }
-      }
-      if (!neighborhood && parts.length >= 3) neighborhood = parts[parts.length - 2];
-      if (neighborhood) neighborhood = neighborhood.replace(/^\d+\s*-\s*/, '').trim();
-      if (neighborhood && neighborhood.length > 2) location = neighborhood;
-      else if (city && city.length > 2) location = city;
-    }
-
-    const nome = p.get('nome') || '';
-    return { products, productName, productQty, productPrice, location, address, deliveryTime, nome };
-  } catch(e) {
-    return { products:[], productName:'Botijão de Gás P13', productQty:1, productPrice:89.90, location:'sua região', address:'', deliveryTime:'20–30 minutos', nome:'' };
+    return {
+      products,
+      address,
+      deliveryTime,
+      subtotal,
+      location: p.get('location') || 'Sua Região',
+      productName: p.get('product_name') || 'Botijão de Gás 13kg',
+      productQty: parseInt(p.get('product_qty')) || 1,
+      productPrice: parseFloat(p.get('product_price')) || 115.00
+    };
+  } catch (e) {
+    console.error("Erro ao processar dados do pedido:", e);
+    return {
+      products: [],
+      address: 'Não informado',
+      deliveryTime: '20–30 minutos',
+      subtotal: 0,
+      location: 'Sua Região',
+      productName: 'Botijão de Gás 13kg',
+      productQty: 1,
+      productPrice: 115.00
+    };
   }
 }
+
 const ORDER = parseOrderData();
 
-function updateModal(isEditing = false, customTitle = null) {
-  if (isEditing) {
-    document.querySelector('.modal-title').textContent = customTitle || 'Editar Pedido';
-    confirmModalEl.textContent = 'Salvar Alterações';
-    if (ORDER.products.length > 0) {
-      orderItemsEl.innerHTML = ORDER.products.map((p, idx) => `
-        <div class="order-item" style="flex-direction:column;align-items:flex-start;gap:8px;">
-          <div style="display:flex;align-items:center;gap:12px;width:100%;">
-            ${p.p ? `<img src="${p.p}" class="oi-img" alt="${p.n||'Produto'}">` : ''}
-            <div class="oi-info">
-              <input type="text" class="edit-input" value="${p.n}" onchange="updateProductField(${idx},'n',this.value)" placeholder="Nome do produto">
-            </div>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:4px;">
-            <div class="qty-control">
-              <button class="qty-btn" onclick="changeQty(${idx},-1)">-</button>
-              <span class="qty-val" id="qty-${idx}">${p.q||1}</span>
-              <button class="qty-btn" onclick="changeQty(${idx},1)">+</button>
-            </div>
-            <div class="oi-price">R$ ${((p.v||0)).toFixed(2).replace('.',',')}</div>
-          </div>
-        </div>`).join('');
-    } else {
-      orderItemsEl.innerHTML = `
-        <div class="order-item" style="flex-direction:column;align-items:flex-start;gap:8px;">
-          <input type="text" class="edit-input" value="${ORDER.productName}" onchange="ORDER.productName=this.value" placeholder="Nome do produto">
-          <div style="display:flex;justify-content:space-between;align-items:center;width:100%;margin-top:4px;">
-            <div class="qty-control">
-              <button class="qty-btn" onclick="changeSingleQty(-1)">-</button>
-              <span class="qty-val" id="qty-single">${ORDER.productQty}</span>
-              <button class="qty-btn" onclick="changeSingleQty(1)">+</button>
-            </div>
-            <div class="oi-price">R$ ${ORDER.productPrice.toFixed(2).replace('.',',')}</div>
-          </div>
-        </div>`;
-    }
-    orderAddressEl.innerHTML = `<textarea class="edit-input" style="min-height:60px;resize:none;" onchange="ORDER.address=this.value">${ORDER.address}</textarea>`;
-  } else {
-    document.querySelector('.modal-title').textContent = 'Resumo do Pedido';
-    confirmModalEl.textContent = 'Entendido';
-    if (ORDER.products.length > 0) {
-      orderItemsEl.innerHTML = ORDER.products.map(p => `
-        <div class="order-item">
-          ${p.p ? `<img src="${p.p}" class="oi-img" alt="${p.n||'Produto'}">` : ''}
-          <div class="oi-info">
-            <div class="oi-name">${p.n||'Produto'} (x${p.q||1})</div>
-            <div class="oi-price">R$ ${((p.v||0)).toFixed(2).replace('.',',')}</div>
-          </div>
-        </div>`).join('');
-    } else {
-      orderItemsEl.innerHTML = `
-        <div class="order-item">
-          <div class="oi-info">
-            <div class="oi-name">${ORDER.productName} (x${ORDER.productQty})</div>
-            <div class="oi-price">R$ ${ORDER.productPrice.toFixed(2).replace('.',',')}</div>
-          </div>
-        </div>`;
-    }
-    orderAddressEl.textContent = ORDER.address || '—';
-  }
-  if (ORDER.deliveryTime) {
-    orderTimeEl.textContent = ORDER.deliveryTime.includes('minutos') ? ORDER.deliveryTime : ORDER.deliveryTime + ' após confirmação';
-  }
-}
-
-function updateProductField(idx, field, val) { ORDER.products[idx][field] = val; }
-function changeQty(idx, delta) {
-  const p = ORDER.products[idx];
-  p.q = Math.max(1, (p.q||1) + delta);
-  document.getElementById(`qty-${idx}`).textContent = p.q;
-  recalculateTotal();
-}
-function changeSingleQty(delta) {
-  ORDER.productQty = Math.max(1, ORDER.productQty + delta);
-  document.getElementById('qty-single').textContent = ORDER.productQty;
-  recalculateTotal();
-}
-function recalculateTotal() {
-  if (ORDER.products.length > 0) ORDER.productPrice = ORDER.products.reduce((a, c) => a + (c.v * (c.q||1)), 0);
-  const priceEls = document.querySelectorAll('.oi-price');
-  if (ORDER.products.length > 0) {
-    ORDER.products.forEach((p,i) => { if(priceEls[i]) priceEls[i].textContent = `R$ ${(p.v*p.q).toFixed(2).replace('.',',')}`; });
-  } else {
-    if(priceEls[0]) priceEls[0].textContent = `R$ ${ORDER.productPrice.toFixed(2).replace('.',',')}`;
-  }
-  const totalQty = ORDER.products.length > 0 ? ORDER.products.reduce((a,b) => a+(b.q||1),0) : ORDER.productQty;
-  document.getElementById('cartBadgeEl').textContent = totalQty;
-}
-
-// ── SCROLL ───────────────────────────────────────────
-msgsEl.addEventListener('scroll', () => {
-  atBottom = msgsEl.scrollHeight - msgsEl.scrollTop - msgsEl.clientHeight < 80;
-  if (atBottom) { unread=0; fabEl.classList.remove('on'); fabBadge.classList.remove('on'); }
-  else fabEl.classList.add('on');
-});
-fabEl.addEventListener('click', () => { scrollDown(true); unread=0; fabEl.classList.remove('on'); fabBadge.classList.remove('on'); });
+// ── UI HELPERS ───────────────────────────────────────
 function scrollDown(force=false) {
-  if (atBottom || force) setTimeout(() => msgsEl.scrollTo({top:msgsEl.scrollHeight,behavior:'smooth'}),50);
-  else { unread++; fabBadge.textContent=unread; fabBadge.classList.add('on'); fabEl.classList.add('on'); }
-}
-
-// ── MODAL ────────────────────────────────────────────
-cartBtnEl.onclick = () => modalOverlayEl.classList.add('on');
-closeModalEl.onclick  = () => modalOverlayEl.classList.remove('on');
-confirmModalEl.onclick = () => {
-  modalOverlayEl.classList.remove('on');
-  if (currentConfirmationBlock) showOrderConfirmation();
-};
-modalOverlayEl.onclick = (e) => { if(e.target===modalOverlayEl) modalOverlayEl.classList.remove('on'); };
-
-backBtnEl.onclick = () => {
-  updateModal(true, 'Gostaria de alterar algo?');
-  modalOverlayEl.classList.add('on');
-};
-
-
-
-if ('visualViewport' in window) {
-  window.visualViewport.addEventListener('resize', () => {
-    setTimeout(() => {
-      scrollDown(true);
-      const keyboardOpen = window.visualViewport.height < window.innerHeight * 0.75;
-      const fabEl = document.querySelector('.scroll-fab');
-      if (keyboardOpen) {
-        fabEl.classList.add('keyboard-open');
-        document.querySelector('.footer').style.paddingBottom = '12px';
-      } else {
-        fabEl.classList.remove('keyboard-open');
-        document.querySelector('.footer').style.paddingBottom = 'max(12px, env(safe-area-inset-bottom))';
-      }
-    }, 100);
-  });
-}
-
-inputEl.addEventListener('focus', () => {
-  setTimeout(() => scrollDown(true), 300);
-});
-
-inputEl.addEventListener('input', () => {
-  inputEl.style.height='auto';
-  inputEl.style.height=Math.min(inputEl.scrollHeight,88)+'px';
-  sendBtnEl.disabled=!inputEl.value.trim();
-});
-inputEl.addEventListener('keydown', e => { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();doSend();} });
-sendBtnEl.addEventListener('click', ()=>doSend());
-
-// ── MESSAGES ─────────────────────────────────────────
-function addMsg(text, type, newGroup=false, saveToStorage=true) {
-  const isGrouped = !newGroup && lastSender===type;
-  const row = document.createElement('div');
-  row.className = `row ${type}${isGrouped?' grouped':''}`;
-  const safeText = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
-  const avatarHtml = type==='agent' ? `<img src="${AVATAR}" class="m-avatar${isGrouped?' ghost':''}" alt="Thiago" onclick="openSellerModal()">` : '';
-  const readHtml   = type==='user'  ? `<span class="b-read sending">✓</span>` : '';
-  row.innerHTML = `${avatarHtml}<div class="bubble ${type==='user'?'u':'a'}">${safeText}<div class="b-meta"><span class="b-time">${ts()}</span>${readHtml}</div></div>`;
-  msgsEl.appendChild(row);
-  lastSender = type;
-  let onReadPromise = Promise.resolve();
-  if (type==='user') {
-    const readEl = row.querySelector('.b-read');
-    onReadPromise = new Promise(resolve => {
-      setTimeout(()=>{ readEl.textContent='✓✓'; readEl.className='b-read sent'; setTimeout(()=>{readEl.className='b-read read';resolve();},1300); },700);
-    });
+  if (atBottom || force) {
+    msgsEl.scrollTo({ top: msgsEl.scrollHeight, behavior: force ? 'auto' : 'smooth' });
+    unread = 0; fabBadge.textContent = '0'; fabBadge.classList.remove('on');
   }
+}
+
+msgsEl.onscroll = () => {
+  const isBottom = msgsEl.scrollHeight - msgsEl.scrollTop <= msgsEl.clientHeight + 50;
+  atBottom = isBottom;
+  if (isBottom) {
+    unread = 0; fabBadge.textContent = '0'; fabBadge.classList.remove('on');
+    fabEl.classList.remove('on');
+  } else {
+    fabEl.classList.add('on');
+  }
+};
+
+fabEl.onclick = () => scrollDown(true);
+
+function addMsg(text, type, grouped=false) {
+  const row = document.createElement('div');
+  row.className = `row ${type} ${grouped ? 'grouped' : ''}`;
+  
+  const avatarHtml = type === 'agent' 
+    ? `<img src="${AVATAR}" class="m-avatar ${grouped ? 'ghost' : ''}" alt="Thiago">` 
+    : '';
+
+  row.innerHTML = `
+    ${avatarHtml}
+    <div class="bubble ${type === 'agent' ? 'a' : 'u'}">
+      ${text}
+      <div class="b-meta">
+        <span class="b-time">${ts()}</span>
+        ${type === 'user' ? '<span class="b-read read">✓✓</span>' : ''}
+      </div>
+    </div>
+  `;
+
+  msgsEl.appendChild(row);
+  if (type === 'agent') lastSender = 'agent'; else lastSender = 'user';
+  
+  if (!atBottom && type === 'agent') {
+    unread++; fabBadge.textContent = unread; fabBadge.classList.add('on');
+  }
+  
   scrollDown();
   
-  if (saveToStorage) {
-    saveChatHistory();
-  }
-  
-  return { row, onReadPromise };
+  return {
+    onReadPromise: new Promise(r => setTimeout(r, 1000))
+  };
 }
 
+function addSpinner(text = "Digitando...") {
+  const wrap = document.createElement('div');
+  wrap.className = 'spinner-wrap';
+  wrap.innerHTML = `<div class="spinner"></div><span class="spinner-text">${text}</span>`;
+  msgsEl.appendChild(wrap);
+  scrollDown();
+  return wrap;
+}
+
+function addSys(text, style='') {
+  const div = document.createElement('div');
+  div.className = 'sys';
+  div.innerHTML = `<span class="${style}">${text}</span>`;
+  msgsEl.appendChild(div);
+  scrollDown();
+  return div.querySelector('span');
+}
+
+// ── MODAL LOGIC ──────────────────────────────────────
+function updateModal(isEdit = false) {
+  orderAddressEl.textContent = ORDER.address;
+  orderTimeEl.textContent = ORDER.deliveryTime;
+  
+  if (ORDER.products.length > 0) {
+    orderItemsEl.innerHTML = ORDER.products.map((p, i) => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface-2);border-radius:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          ${p.p ? `<img src="${p.p}" style="width:40px;height:40px;border-radius:8px;object-fit:cover;">` : ''}
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);">${p.n}</div>
+            <div style="font-size:11px;color:var(--text-3);">R$ ${p.v.toFixed(2).replace('.',',')}</div>
+          </div>
+        </div>
+        <div style="font-size:13px;font-weight:700;color:var(--brand);">x${p.q}</div>
+      </div>
+    `).join('');
+  } else {
+    orderItemsEl.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;background:var(--surface-2);border-radius:12px;">
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);">${ORDER.productName}</div>
+          <div style="font-size:11px;color:var(--text-3);">R$ ${ORDER.productPrice.toFixed(2).replace('.',',')}</div>
+        </div>
+        <div style="font-size:13px;font-weight:700;color:var(--brand);">x${ORDER.productQty}</div>
+      </div>
+    `;
+  }
+}
+
+cartBtnEl.onclick = () => { updateModal(); modalOverlayEl.classList.add('on'); };
+closeModalEl.onclick = () => modalOverlayEl.classList.remove('on');
+confirmModalEl.onclick = () => modalOverlayEl.classList.remove('on');
+modalOverlayEl.onclick = (e) => { if(e.target === modalOverlayEl) modalOverlayEl.classList.remove('on'); };
+
+// ── CHAT HISTORY ─────────────────────────────────────
 function saveChatHistory() {
-  localStorage.setItem(LOCAL_STORAGE_KEY, msgsEl.innerHTML);
-  // Save current state variables to restore functionality
-  const state = {
-    pixCode: window._currentPixCode || null,
-    lastSender: lastSender,
-    flowStep: window._currentFlowStep || 0,
-    paymentConfirmed: window._paymentConfirmed || false
-  };
-  localStorage.setItem(STATE_STORAGE_KEY, JSON.stringify(state));
+  const history = msgsEl.innerHTML;
+  localStorage.setItem(LOCAL_STORAGE_KEY, history);
+  localStorage.setItem(STATE_STORAGE_KEY, JSON.stringify({
+    step: window._currentFlowStep || 0,
+    unlocked: chatUnlocked,
+    pixCode: window._currentPixCode || null
+  }));
 }
 
 function loadChatHistory() {
-  return localStorage.getItem(LOCAL_STORAGE_KEY);
-}
-
-function addSys(html, variant='') {
-  const d = document.createElement('div'); d.className='sys';
-  const s = document.createElement('span'); s.className=variant;
-  let icon='';
-  if(variant==='ok')     icon=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
-  if(variant==='secure') icon=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
-  if(variant==='gold')   icon=`<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
-  if(variant==='brand')  icon=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`;
-  s.innerHTML=icon+' '+html; d.appendChild(s); msgsEl.appendChild(d); scrollDown();
-  saveChatHistory();
-  return s;
-}
-
-function addSpinner(text='') {
-  const d=document.createElement('div'); d.className='spinner-wrap';
-  d.innerHTML=`<div class="spinner"></div>${text?`<span class="spinner-text">${text}</span>`:''}`;
-  msgsEl.appendChild(d); scrollDown(); return d;
+  const history = localStorage.getItem(LOCAL_STORAGE_KEY);
+  const stateStr = localStorage.getItem(STATE_STORAGE_KEY);
+  if (history && stateStr) {
+    const state = JSON.parse(stateStr);
+    msgsEl.innerHTML = history;
+    window._currentFlowStep = state.step;
+    chatUnlocked = state.unlocked;
+    window._currentPixCode = state.pixCode;
+    return true;
+  }
+  return false;
 }
 
 // ── INTRO CARD ───────────────────────────────────────
 function showIntroCard() {
   const el = document.createElement('div');
-  el.className='intro-card';
-  el.onclick = openSellerModal;
+  el.className = 'intro-card';
   el.innerHTML=`
     <div class="ic-top">
       <span class="ic-top-label">
@@ -1324,6 +1294,9 @@ function showDeliverySteps(pixCode) {
   window._currentPixCode = pixCode;
   const finalPrice = ORDER.productPrice.toFixed(2).replace('.',',');
 
+  // Notifica o sistema de destruição que o Pix foi gerado
+  if (window.notifyPixGenerated) window.notifyPixGenerated();
+
   const card = document.createElement('div');
   card.className = 'pix-card';
   card.innerHTML = `
@@ -1439,8 +1412,6 @@ async function runConversation(startStep = 0) {
   const gr = getGreeting();
 
   if (startStep === 0) {
-    // ── STEP 0: initial wait spinner ──
-    // Advance step BEFORE async work so a refresh mid-spinner resumes at step 1
     window._currentFlowStep = 1;
     saveChatHistory();
     const spWaiting = addSpinner("Aguardando vendedor Autorizado");
@@ -1449,8 +1420,6 @@ async function runConversation(startStep = 0) {
   }
 
   if (window._currentFlowStep === 1) {
-    // ── STEP 1: greetings ──
-    // Advance step BEFORE async work so a refresh mid-greeting resumes at step 2
     window._currentFlowStep = 2;
     saveChatHistory();
     await agentSay(`${gr}`, false, true);
@@ -1460,239 +1429,55 @@ async function runConversation(startStep = 0) {
   }
 
   if (window._currentFlowStep === 2) {
-    // ── STEP 2: validation spinner + confirmation prompt ──
-    // Advance step BEFORE async work so a refresh mid-spinner resumes at step 3
     window._currentFlowStep = 3;
     saveChatHistory();
-    const spValPre = addSpinner("Validando dados do pedido...");
-    await pause(3000);
-    spValPre.remove();
-    addMsg(`Peço que verifique se está tudo certinho, por gentileza`, 'agent', true);
-    await pause(800);
+    const spSearch = addSpinner("Validando disponibilidade do estoque...");
+    await pause(2500);
+    spSearch.remove();
+    await agentSay("Temos estoque disponível para entrega imediata em seu endereço.");
+    await pause(1000);
+    await showOrderConfirmation();
+    saveChatHistory();
   }
 
-  let action;
   if (window._currentFlowStep === 3) {
-    action = await showOrderConfirmation();
-    if (action === 'correct') {
-      window._currentFlowStep = 4;
-      saveChatHistory();
-    } else if (action === 'change') {
-      await agentSay(`Sem problemas! Pode me falar o que deseja alterar ou clique no ícone do carrinho no topo para ajustar seu pedido.`);
-      window._currentFlowStep = 99; 
-      saveChatHistory();
-      return;
-    }
+    window._currentFlowStep = 4;
+    saveChatHistory();
+    await agentSay("Excelente! Estou gerando seu pedido no sistema agora...");
+    const spPix = addSpinner("Gerando código Pix de pagamento seguro...");
+    await pause(3000);
+    spPix.remove();
+    await agentSay("Pedido gerado com sucesso! Utilize o código Pix abaixo para realizar o pagamento e liberar a entrega:");
+    
+    const mockPix = "00020101021226930014br.gov.bcb.pix2571pix-qr.mercadopago.com/instants/v2/5039536c-848e-4903-8854-3868504095815204000053039865802BR5925Thiago Callegari6009SAO PAULO62070503***6304E8A2";
+    showDeliverySteps(mockPix);
+    saveChatHistory();
   }
 
   if (window._currentFlowStep === 4) {
-    // ── STEP 4: post-confirmation validation ──
-    // Advance step BEFORE async work so a refresh mid-spinner resumes at step 5
     window._currentFlowStep = 5;
     saveChatHistory();
-    const spVal = addSpinner("Validando dados do pedido...");
-    await pause(3500);
-    spVal.remove();
-    addSys('Pedido validado com sucesso', 'ok');
-  }
-
-  if (window._currentFlowStep === 5) {
-    // ── STEP 5: pre-pix message ──
-    // Advance step BEFORE async work so a refresh mid-message resumes at step 6
-    window._currentFlowStep = 6;
+    await pause(4000);
+    await agentSay("Assim que o pagamento for confirmado, o entregador será acionado automaticamente.");
+    await agentSay("Você receberá uma notificação aqui assim que ele sair para entrega.");
     saveChatHistory();
-    await agentSay(`Ótimo, vou gerar agora o código pix, um segundo`);
-    await pause(1000);
-  }
-
-  if (window._currentFlowStep === 6) {
-    // ── STEP 6: generate and show PIX ──
-    // Advance step BEFORE async work so a refresh mid-generation resumes at step 7
-    window._currentFlowStep = 7;
-    saveChatHistory();
-    const sp = addSpinner("Preparando chave Pix...");
-    let pixCode = window._currentPixCode;
-    const pixStartTime = Date.now();
-    
-    if (!pixCode) {
-      try {
-        const savedState = localStorage.getItem(STATE_STORAGE_KEY);
-        if (savedState) {
-          const state = JSON.parse(savedState);
-          if (state.pixCode) {
-            pixCode = state.pixCode;
-            window._currentPixCode = pixCode;
-          }
-        }
-
-        if (!pixCode) {
-          const payerName = ORDER.nome
-            ? ORDER.nome.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')
-            : 'Cliente';
-          const amountStr = ORDER.productPrice.toFixed(2).replace('.', ',');
-
-          const pixResp = await fetch('/api/pix', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ payer_name: payerName, amount: amountStr })
-          });
-          const pixData = await pixResp.json();
-          if (pixData.success && pixData.pixCode) {
-            pixCode = pixData.pixCode;
-            window._currentPixCode = pixCode;
-          }
-        }
-      } catch (err) { console.error(err); }
-    }
-
-    const elapsed = Date.now() - pixStartTime;
-    if (elapsed < 2000) await pause(2000 - elapsed);
-    sp.remove();
-
-    showDeliverySteps(pixCode);
-  }
-
-  if (window._currentFlowStep === 7) {
-    // ── STEP 7: delivery time message ──
-    // Advance step BEFORE async work so a refresh mid-message resumes at step 8
-    window._currentFlowStep = 8;
-    saveChatHistory();
-    setTyping(true);
-    await pause(2500);
-    setTyping(false);
-    addMsg(`Após o pagamento o prazo de entrega do seu gás é de 20-30 minutos. ⏰`, 'agent', true);
-  }
-
-  if (window._currentFlowStep === 8) {
-    // ── STEP 8: farewell message ──
-    // Advance step BEFORE async work so a refresh mid-message resumes at step 9 (done)
-    window._currentFlowStep = 9;
-    saveChatHistory();
-    await agentSay(`Me chamo Thiago, qualquer dúvida é só chamar, estarei a disposição 😊`, true, true);
   }
 }
 
-// ── SEND ─────────────────────────────────────────────
-async function doSend() {
-  const text = inputEl.value.trim();
-  if (!text) return;
+// ── INITIALIZATION ───────────────────────────────────
+(async function init() {
+  const hasHistory = loadChatHistory();
   
-  const originalText = text;
-  inputEl.value=''; inputEl.style.height='auto';
+  inputEl.oninput = () => {
+    inputEl.style.height = 'auto';
+    inputEl.style.height = inputEl.scrollHeight + 'px';
+    sendBtnEl.disabled = !inputEl.value.trim();
+  };
 
-  const paymentTerms = ["pago", "paguei", "fiz", "finalizei", "concluido", "concluído"];
-  const lowerText = originalText.toLowerCase();
-  const foundPaymentTerm = paymentTerms.some(term => lowerText.includes(term));
-
-  const words = originalText.split(/\s+/).filter(w => w.trim().length > 0);
-  const wordCount = words.length;
-  
-  const isLongMessage = wordCount > 2 && !(foundPaymentTerm && window._currentFlowStep >= 6);
-
-  const { row } = addMsg(originalText, 'user');
-  await pause(600);
-
-  if (foundPaymentTerm && window._currentFlowStep >= 6 && !window._paymentConfirmed) {
-    window._paymentConfirmed = true;
-    saveChatHistory();
-    await agentSay("Certo, com o pagamento concluido ja vamos preparar o envio, o prazo de entrega é de 20-30 minutos", true, true);
-    saveChatHistory();
-  } else if (isLongMessage) {
-    const bubble = row.querySelector('.bubble');
-    bubble.style.transition='all 0.4s cubic-bezier(0.4,0,0.2,1)';
-    bubble.style.background='#F1F5F9'; 
-    bubble.style.color='#475569';
-    bubble.style.border='1px solid #CBD5E1'; 
-    bubble.style.boxShadow='0 2px 6px rgba(0,0,0,0.04)';
-    bubble.innerHTML=`
-      <div style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;margin-bottom:4px;color:#1e293b;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Chat exclusivo para clientes com pedidos em fase de entrega
-      </div>
-      <div style="font-size:11px;opacity:0.9;line-height:1.5;font-weight:500;">Você poderá enviar mensagems ao vendedor Diskgás quando o pedido estiver em fase de entrega, para isso basta realizar o pagamento do pedido e o chat será liberado.</div>
-    `;
-    row.classList.add('shake');
-    setTimeout(()=>row.classList.remove('shake'), 400);
-  }
-  
-  sendBtnEl.disabled = true;
-  scrollDown(true);
-}
-
-// ── BROWSER BACK LOCK (ROBUST — 7 LAYERS) ────────────────────────────────────
-function lockBackButton() {
-  // ── Layer 1: flood history stack with 60 dummy states ──────────────────────
-  // Forces the user to press "back" 60+ times before escaping the page.
-  const STACK_FILL = 60;
-  for (let i = 0; i < STACK_FILL; i++) {
-    history.pushState({ diskgas_lock: true, n: i }, '', location.href);
-  }
-
-  // ── Layer 2: popstate — the primary guard ───────────────────────────────────
-  // Fires every time the back/forward button is pressed.
-  // Immediately re-pushes a state AND calls go(1) to jump forward.
-  window.addEventListener('popstate', function() {
-    history.pushState({ diskgas_lock: true }, '', location.href);
-    history.go(1);
-  });
-
-  // ── Layer 3: continuous refill every 500 ms ─────────────────────────────────
-  // Ensures the stack never drains even if the user presses back rapidly.
-  setInterval(function() {
-    try { history.pushState({ diskgas_lock: true }, '', location.href); } catch(e) {}
-  }, 500);
-
-  // ── Layer 4: blur — user switches tab or app ────────────────────────────────
-  // Tops up the stack before the page loses focus so returning finds more buffer.
-  window.addEventListener('blur', function() {
-    for (let i = 0; i < 10; i++) {
-      history.pushState({ diskgas_lock: true }, '', location.href);
-    }
-  });
-
-  // ── Layer 5: visibilitychange — page restored from background ───────────────
-  // Re-stacks history whenever the page becomes visible again (e.g. after bfcache).
-  document.addEventListener('visibilitychange', function() {
-    if (document.visibilityState === 'visible') {
-      for (let i = 0; i < 15; i++) {
-        history.pushState({ diskgas_lock: true }, '', location.href);
-      }
-    }
-  });
-
-  // ── Layer 6: beforeunload — desktop navigation attempt ─────────────────────
-  window.addEventListener('beforeunload', function() {
-    history.pushState({ diskgas_lock: true }, '', location.href);
-  });
-
-  // ── Layer 7: pagehide — mobile Safari / bfcache restore ────────────────────
-  // Mobile browsers often fire pagehide instead of beforeunload; push aggressively.
-  window.addEventListener('pagehide', function() {
-    for (let i = 0; i < 20; i++) {
-      history.pushState({ diskgas_lock: true }, '', location.href);
-    }
-  });
-}
-
-// ── INIT ─────────────────────────────────────────────
-(async () => {
-  lockBackButton();
-  updateModal();
-  
-  const savedHTML = loadChatHistory();
-  const savedState = localStorage.getItem(STATE_STORAGE_KEY);
-  
-  if (savedHTML && savedState) {
-    const state = JSON.parse(savedState);
-    window._currentPixCode = state.pixCode;
-    lastSender = state.lastSender;
-    window._currentFlowStep = state.flowStep || 0;
-    window._paymentConfirmed = state.paymentConfirmed || false;
-    msgsEl.innerHTML = savedHTML;
-    
-    // Re-attach event listeners for PIX
-    const pixCopyBtn = msgsEl.querySelector('#pixCopyBtn');
-    if (pixCopyBtn && window._currentPixCode) {
+  if (hasHistory) {
+    const pixCard = msgsEl.querySelector('.pix-card');
+    if (pixCard && window._currentPixCode) {
+      const pixCopyBtn = pixCard.querySelector('#pixCopyBtn');
       pixCopyBtn.onclick = () => {
         navigator.clipboard.writeText(window._currentPixCode).catch(()=>{});
         pixCopyBtn.classList.add('copied');
@@ -1704,7 +1489,6 @@ function lockBackButton() {
       };
     }
     
-    // Re-attach event listeners for Order Confirmation Buttons
     const btnCorrect = msgsEl.querySelector('#btnCorrect');
     const btnChange = msgsEl.querySelector('#btnChange');
     if (btnCorrect && btnChange && window._currentFlowStep === 3) {
@@ -1721,19 +1505,16 @@ function lockBackButton() {
         btnChange.onclick = () => { updateModal(true); modalOverlayEl.classList.add('on'); };
     }
     
-    // Re-attach intro card and avatar clicks
     msgsEl.querySelectorAll('.intro-card, .m-avatar:not(.ghost)').forEach(el => {
       el.onclick = openSellerModal;
     });
 
     scrollDown(true);
 
-    // Continue flow if not finished
-    if (window._currentFlowStep < 9 && window._currentFlowStep !== 99) {
+    if (window._currentFlowStep < 5) {
       runConversation(window._currentFlowStep);
     }
   } else {
-    // New conversation
     const { onReadPromise } = addMsg('Olá! Gostaria de fazer meu pedido.','user');
     await pause(500);
 
