@@ -1106,29 +1106,32 @@ backBtnEl.onclick = () => {
 if ('visualViewport' in window) {
   function handleViewport() {
     const vv = window.visualViewport;
+    const app = document.querySelector('.app');
     const footer = document.querySelector('.footer');
     const fab = document.querySelector('.scroll-fab');
     const keyboardOpen = vv.height < window.innerHeight * 0.75;
+
+    app.style.height = vv.height + 'px';
+    footer.style.transform = '';
+
     if (keyboardOpen) {
-      const bottomOffset = window.innerHeight - (vv.offsetTop + vv.height);
-      footer.style.transform = `translateY(${-bottomOffset}px)`;
       footer.style.paddingBottom = '8px';
       fab.classList.add('keyboard-open');
+      msgsEl.scrollTop = msgsEl.scrollHeight;
+      setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 150);
     } else {
-      footer.style.transform = '';
+      app.style.height = '';
       footer.style.paddingBottom = 'max(8px, env(safe-area-inset-bottom))';
       fab.classList.remove('keyboard-open');
     }
-    msgsEl.scrollTop = msgsEl.scrollHeight;
-    setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 350);
   }
   window.visualViewport.addEventListener('resize', handleViewport);
   window.visualViewport.addEventListener('scroll', handleViewport);
 }
 
 inputEl.addEventListener('focus', () => {
-  setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 300);
-  setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 550);
+  setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 100);
+  setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 400);
 });
 
 inputEl.addEventListener('input', () => {
