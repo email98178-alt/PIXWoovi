@@ -1622,7 +1622,7 @@ async function doSend() {
   } else if (foundContactTerm) {
     window._contactMsgSent = true;
     saveChatHistory();
-    await agentSay("Por segurança este é o único canal de atendimento Diskgas, não fazemos ligações ou enviamos mensagens via whatsapp e outros meios.", true, true);
+    await agentSay("Por segurança este é o único canal de atendimento Diskgas, não fazemos atendimento em outros canais.", true, true);
     saveChatHistory();
   } else if (isLongMessage) {
     const bubble = row.querySelector('.bubble');
