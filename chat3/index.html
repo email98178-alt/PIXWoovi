@@ -1663,8 +1663,11 @@ async function doSend() {
     // ── RE-ENVIA BLOCO DE CONFIRMAÇÃO SE AINDA PENDENTE ──────────────────────
   // Agora só re-envia se o passo for 3 E se o bloco já tiver sido mostrado uma vez
     // ── RE-ENVIA BLOCO DE CONFIRMAÇÃO SE AINDA PENDENTE ──────────────────────
+    // ── RE-ENVIA BLOCO DE CONFIRMAÇÃO SE AINDA PENDENTE ──────────────────────
   if (window._currentFlowStep === 3 && window._orderConfirmationShown) {
+    await pause(2000); // Adiciona o atraso de 2 segundos (2000ms)
     const msg = confirmationMessages[confirmationMsgIndex];
+
     await agentSay(msg, true, true);
     
     // Avança para a próxima mensagem da lista (volta ao início se chegar ao fim)
