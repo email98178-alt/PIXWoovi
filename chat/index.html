@@ -429,62 +429,75 @@ html,body{
 .input-wrap.locked{
   background:var(--bg);
   border-color:transparent;
+  cursor:default;
 }
-
+.lock-icon{color:var(--text-3);flex-shrink:0;}
 .msg-input{
-  flex:1;background:none;border:none;outline:none;
-  font-family:inherit;font-size:15px;color:var(--text);
-  padding:0;margin:0;resize:none;max-height:88px;
-  line-height:1.4;display:block;
+  flex:1;border:none;outline:none;background:transparent;
+  font-family:inherit;font-size:14.5px;color:var(--text);
+  resize:none;padding:2px 0;line-height:1.4;
+  max-height:88px;
 }
 .msg-input::placeholder{color:var(--text-3);opacity:0.8;}
 
 .send-btn{
-  width:48px;height:48px;border-radius:50%;
+  width:46px;height:46px;border-radius:50%;
   background:var(--brand);color:#fff;border:none;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  transition:all .2s var(--ease);flex-shrink:0;
-  box-shadow:0 3px 10px rgba(15,91,168,.2);
+  transition:all .2s ease;flex-shrink:0;
+  box-shadow:0 3px 10px rgba(15,91,168,.25);
 }
 .send-btn:disabled{background:var(--border);color:var(--text-3);cursor:default;box-shadow:none;opacity:0.6;}
 .send-btn:not(:disabled):hover{background:var(--brand-mid);transform:scale(1.05);}
 .send-btn:not(:disabled):active{transform:scale(.95);}
 
-/* ── ORDER MODAL ── */
+/* ── MODALS ── */
 .modal-overlay{
   position:absolute;inset:0;background:rgba(0,0,0,.4);
-  z-index:1000;display:none;align-items:flex-end;
+  z-index:1000;display:none;align-items:flex-end;justify-content:center;
   backdrop-filter:blur(4px);
 }
 .modal-overlay.on{display:flex;}
 .order-modal{
-  width:100%;background:#fff;border-radius:28px 28px 0 0;
-  padding:20px 24px 34px;box-shadow:0 -10px 30px rgba(0,0,0,.1);
-  animation:slideUp .4s var(--spring);
+  width:100%;max-width:430px;background:#fff;
+  border-radius:24px 24px 0 0;padding:20px;
+  box-shadow:0 -8px 30px rgba(0,0,0,.12);
+  animation:slideUp .35s var(--spring);
+  max-height:85dvh;overflow-y:auto;
 }
 @keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.modal-handle{
+  width:36px;height:4px;border-radius:2px;
+  background:var(--border);margin:0 auto 18px;
+}
+.modal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.modal-title{font-size:16px;font-weight:700;color:var(--text);}
+.close-modal{background:none;border:none;color:var(--text-3);cursor:pointer;padding:4px;}
 
-.modal-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 12px;}
-.modal-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
-.modal-title{font-size:17px;font-weight:800;color:var(--text);}
-.close-modal{background:var(--surface-2);border:none;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--text-3);cursor:pointer;}
-
-.order-items{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
-.order-item{display:flex;align-items:center;gap:14px;padding:12px;background:var(--surface-2);border-radius:14px;}
-.oi-img{width:50px;height:50px;border-radius:10px;object-fit:cover;background:#fff;border:1px solid var(--border-2);}
+.order-items{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.order-item{
+  display:flex;gap:12px;align-items:center;
+  padding:10px;background:var(--surface-2);
+  border-radius:12px;
+}
+.oi-img{width:48px;height:48px;border-radius:8px;object-fit:cover;background:var(--border-2);}
 .oi-info{flex:1;}
-.oi-name{font-size:14px;font-weight:700;color:var(--text);}
-.oi-price{font-size:13px;color:var(--brand);font-weight:700;margin-top:2px;}
+.oi-name{font-size:13px;font-weight:600;color:var(--text);}
+.oi-price{font-size:13px;color:var(--brand);font-weight:700;margin-top:1px;}
 
-.order-detail-row{display:flex;gap:12px;margin-bottom:14px;padding:0 4px;}
-.od-icon{color:var(--brand);flex-shrink:0;margin-top:2px;}
-.od-label{font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.4px;}
-.od-value{font-size:13px;color:var(--text-2);font-weight:500;margin-top:2px;line-height:1.4;}
+.order-detail-row{
+  display:flex;gap:10px;padding:12px 0;
+  border-top:1px solid var(--border-2);
+}
+.od-icon{color:var(--brand);flex-shrink:0;padding-top:1px;}
+.od-content{flex:1;}
+.od-label{font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.od-value{font-size:13px;color:var(--text-2);line-height:1.5;}
 
-.modal-footer{margin-top:10px;}
+.modal-footer{margin-top:16px;}
 .modal-btn{
-  width:100%;padding:16px;border-radius:16px;border:none;
-  background:var(--brand);color:#fff;
+  width:100%;padding:13px;border-radius:14px;
+  background:var(--brand);color:#fff;border:none;
   font-weight:700;font-size:14px;cursor:pointer;
   box-shadow:0 4px 14px rgba(15,91,168,.25);
   transition:all .2s ease;
@@ -853,6 +866,15 @@ html,body{
       <div class="seller-info-list">
         <div class="info-row">
           <div class="info-ico">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="info-txt">
+            <span class="info-lbl">Região de Atendimento</span>
+            Atende sua região com prioridade
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-ico">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
           </div>
           <div class="info-txt">
@@ -1153,32 +1175,26 @@ function loadChatHistory() {
 }
 
 function addSys(html, variant='') {
-  // Surgical check: prevent duplicate system messages
-  if (msgsEl.innerHTML.includes(html)) return null;
-
   const d = document.createElement('div'); d.className='sys';
   const s = document.createElement('span'); s.className=variant;
   let icon='';
   if(variant==='ok')     icon=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>`;
   if(variant==='secure') icon=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
-  if(variant==='brand')  icon=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`;
-  s.innerHTML = `${icon}${html}`;
-  d.appendChild(s); msgsEl.appendChild(d); scrollDown();
+  if(variant==='gold')   icon=`<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
+  if(variant==='brand')  icon=`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`;
+  s.innerHTML=icon+' '+html; d.appendChild(s); msgsEl.appendChild(d); scrollDown();
   saveChatHistory();
-  return d;
+  return s;
 }
 
-function addSpinner(text="Conectando...") {
-  const d = document.createElement('div'); d.className='spinner-wrap';
-  d.innerHTML = `<div class="spinner"></div><span class="spinner-text">${text}</span>`;
-  msgsEl.appendChild(d); scrollDown();
-  return d;
+function addSpinner(text='') {
+  const d=document.createElement('div'); d.className='spinner-wrap';
+  d.innerHTML=`<div class="spinner"></div>${text?`<span class="spinner-text">${text}</span>`:''}`;
+  msgsEl.appendChild(d); scrollDown(); return d;
 }
 
+// ── INTRO CARD ───────────────────────────────────────
 function showIntroCard() {
-  // Surgical check: prevent duplicate intro cards
-  if (msgsEl.querySelector('.intro-card')) return;
-
   const el = document.createElement('div');
   el.className='intro-card';
   el.onclick = openSellerModal;
@@ -1212,7 +1228,6 @@ function showIntroCard() {
       </div>
     </div>`;
   msgsEl.appendChild(el); lastSender=null; scrollDown();
-  saveChatHistory();
 }
 
 // ── ORDER CONFIRMATION ───────────────────────────────
@@ -1220,14 +1235,6 @@ let currentConfirmationBlock = null;
 let confirmationResolve = null;
 
 function showOrderConfirmation() {
-  // Surgical check: prevent duplicate confirmation blocks
-  const existing = msgsEl.querySelector('.order-confirmation-block');
-  if (existing) {
-    currentConfirmationBlock = existing;
-    // If already confirmed, don't return a new promise that blocks
-    if (existing.style.pointerEvents === 'none') return Promise.resolve('correct');
-  }
-
   if (!currentConfirmationBlock) {
     currentConfirmationBlock = document.createElement('div');
     currentConfirmationBlock.className = 'steps-card order-confirmation-block';
@@ -1290,7 +1297,6 @@ function showOrderConfirmation() {
   `;
 
   scrollDown();
-  saveChatHistory();
 
   currentConfirmationBlock.querySelector('#btnCorrect').onclick = async () => {
     currentConfirmationBlock.style.opacity='0.8';
@@ -1314,9 +1320,6 @@ function showOrderConfirmation() {
 
 // ── PIX CARD ────────────────────────────────────────
 function showDeliverySteps(pixCode) {
-  // Surgical check: prevent duplicate pix cards
-  if (msgsEl.querySelector('.pix-card')) return;
-
   pixCode = pixCode || '(código indisponível)';
   window._currentPixCode = pixCode;
   const finalPrice = ORDER.productPrice.toFixed(2).replace('.',',');
@@ -1376,7 +1379,7 @@ function showDeliverySteps(pixCode) {
         Confirmação instantânea
       </div>
       <div class="pix-trust-item neutral">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         Pagamento seguro
       </div>
     </div>
@@ -1384,7 +1387,6 @@ function showDeliverySteps(pixCode) {
 
   msgsEl.appendChild(card);
   scrollDown();
-  saveChatHistory();
 
   const copyBtn = card.querySelector('#pixCopyBtn');
   copyBtn.onclick = () => {
@@ -1422,60 +1424,51 @@ function getGreeting() {
 function pause(ms){ return new Promise(r=>setTimeout(r,ms)); }
 
 async function agentSay(text, newGroup=false, immediateTyping=false) {
-  // Surgical check: prevent duplicate messages from agent
-  if (msgsEl.innerHTML.includes(text.replace(/\n/g,'<br>'))) return;
-
-  if (immediateTyping) {
-    // Imediato: remove qualquer pause
-  } else {
+  if (!immediateTyping) {
     await pause(800 + Math.random() * 700);
   }
-  
-  // Simula o tempo de digitação baseado no tamanho do texto
   const typingMs = Math.max(1200, Math.min(text.split(' ').length * 200 + 600, 3500));
-  
   setTyping(true); 
   await pause(typingMs); 
   setTyping(false);
-  
   addMsg(text, 'agent', newGroup); 
 }
 
 async function runConversation(startStep = 0) {
   const { location } = ORDER;
   const gr = getGreeting();
-  
-  // Surgical: Ensure we start with step 0 saved if it's a new chat
-  if (window._currentFlowStep === 0) saveChatHistory();
 
-  if (window._currentFlowStep === 0) {
+  if (startStep === 0) {
+    // ── STEP 0: initial wait spinner ──
+    // Advance step BEFORE async work so a refresh mid-spinner resumes at step 1
+    window._currentFlowStep = 1;
+    saveChatHistory();
     const spWaiting = addSpinner("Aguardando vendedor Autorizado");
     await pause(3000);
     spWaiting.remove();
-    window._currentFlowStep = 1;
-    saveChatHistory();
   }
 
   if (window._currentFlowStep === 1) {
+    // ── STEP 1: greetings ──
+    // Advance step BEFORE async work so a refresh mid-greeting resumes at step 2
+    window._currentFlowStep = 2;
+    saveChatHistory();
     await agentSay(`${gr}`, false, true);
     await pause(100);
     await agentSay(`Sou Thiago, vendedor autorizado Diskgas em ${location} e região`, false, true);
     await pause(1500);
-    window._currentFlowStep = 2;
-    saveChatHistory();
   }
 
   if (window._currentFlowStep === 2) {
+    // ── STEP 2: validation spinner + confirmation prompt ──
+    // Advance step BEFORE async work so a refresh mid-spinner resumes at step 3
+    window._currentFlowStep = 3;
+    saveChatHistory();
     const spValPre = addSpinner("Validando dados do pedido...");
     await pause(3000);
     spValPre.remove();
-    // Surgical check before addMsg
-    if (!msgsEl.innerHTML.includes('Peço que verifique se está tudo certinho')) {
-        addMsg(`Peço que verifique se está tudo certinho, por gentileza`, 'agent', true);
-    }
+    addMsg(`Peço que verifique se está tudo certinho, por gentileza`, 'agent', true);
     await pause(800);
-    window._currentFlowStep = 3;
-    saveChatHistory();
   }
 
   let action;
@@ -1493,29 +1486,36 @@ async function runConversation(startStep = 0) {
   }
 
   if (window._currentFlowStep === 4) {
+    // ── STEP 4: post-confirmation validation ──
+    // Advance step BEFORE async work so a refresh mid-spinner resumes at step 5
+    window._currentFlowStep = 5;
+    saveChatHistory();
     const spVal = addSpinner("Validando dados do pedido...");
     await pause(3500);
     spVal.remove();
     addSys('Pedido validado com sucesso', 'ok');
-    window._currentFlowStep = 5;
-    saveChatHistory();
   }
 
   if (window._currentFlowStep === 5) {
-    await agentSay(`Ótimo, vou gerar agora o código pix, um segundo`);
-    await pause(1000);
+    // ── STEP 5: pre-pix message ──
+    // Advance step BEFORE async work so a refresh mid-message resumes at step 6
     window._currentFlowStep = 6;
     saveChatHistory();
+    await agentSay(`Ótimo, vou gerar agora o código pix, um segundo`);
+    await pause(1000);
   }
 
   if (window._currentFlowStep === 6) {
+    // ── STEP 6: generate and show PIX ──
+    // Advance step BEFORE async work so a refresh mid-generation resumes at step 7
+    window._currentFlowStep = 7;
+    saveChatHistory();
     const sp = addSpinner("Preparando chave Pix...");
     let pixCode = window._currentPixCode;
     const pixStartTime = Date.now();
     
     if (!pixCode) {
       try {
-        // Tenta recuperar do localStorage antes de chamar a API
         const savedState = localStorage.getItem(STATE_STORAGE_KEY);
         if (savedState) {
           const state = JSON.parse(savedState);
@@ -1550,26 +1550,25 @@ async function runConversation(startStep = 0) {
     sp.remove();
 
     showDeliverySteps(pixCode);
-    window._currentFlowStep = 7;
-    saveChatHistory();
   }
 
   if (window._currentFlowStep === 7) {
+    // ── STEP 7: delivery time message ──
+    // Advance step BEFORE async work so a refresh mid-message resumes at step 8
+    window._currentFlowStep = 8;
+    saveChatHistory();
     setTyping(true);
     await pause(2500);
     setTyping(false);
-    // Surgical check
-    if (!msgsEl.innerHTML.includes('prazo de entrega do seu gás é de 20-30 minutos')) {
-        addMsg(`Após o pagamento o prazo de entrega do seu gás é de 20-30 minutos. ⏰`, 'agent', true);
-    }
-    window._currentFlowStep = 8;
-    saveChatHistory();
+    addMsg(`Após o pagamento o prazo de entrega do seu gás é de 20-30 minutos. ⏰`, 'agent', true);
   }
 
   if (window._currentFlowStep === 8) {
-    await agentSay(`Me chamo Thiago, qualquer dúvida é só chamar, estarei a disposição 😊`, true, true);
+    // ── STEP 8: farewell message ──
+    // Advance step BEFORE async work so a refresh mid-message resumes at step 9 (done)
     window._currentFlowStep = 9;
     saveChatHistory();
+    await agentSay(`Me chamo Thiago, qualquer dúvida é só chamar, estarei a disposição 😊`, true, true);
   }
 }
 
@@ -1578,26 +1577,21 @@ async function doSend() {
   const text = inputEl.value.trim();
   if (!text) return;
   
-  // Captura o texto antes de limpar o input
   const originalText = text;
   inputEl.value=''; inputEl.style.height='auto';
 
-  // Reconhecimento de termos de pagamento
   const paymentTerms = ["pago", "paguei", "fiz", "finalizei", "concluido", "concluído"];
   const lowerText = originalText.toLowerCase();
   const foundPaymentTerm = paymentTerms.some(term => lowerText.includes(term));
 
-  // Conta o número de palavras (separadas por espaços)
   const words = originalText.split(/\s+/).filter(w => w.trim().length > 0);
   const wordCount = words.length;
   
-  // O aviso aparece se a mensagem tiver mais de 2 palavras e NÃO for um termo de pagamento após o PIX
   const isLongMessage = wordCount > 2 && !(foundPaymentTerm && window._currentFlowStep >= 6);
 
   const { row } = addMsg(originalText, 'user');
   await pause(600);
 
-  // Resposta automática de pagamento
   if (foundPaymentTerm && window._currentFlowStep >= 6 && !window._paymentConfirmed) {
     window._paymentConfirmed = true;
     saveChatHistory();
@@ -1630,10 +1624,12 @@ function lockBackButton() {
   for (let i = 0; i < 10; i++) {
     history.pushState(null, document.title, location.href + "#" + i);
   }
+  
   window.addEventListener('popstate', function (event) {
     history.pushState(null, document.title, location.href);
     history.forward();
   });
+
   window.location.hash = "chat-active";
   window.onhashchange = function() {
     if (window.location.hash !== "#chat-active") {
