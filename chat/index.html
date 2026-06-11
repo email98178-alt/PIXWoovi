@@ -999,17 +999,21 @@ function parseOrderData() {
     const deliveryTime = p.get('delivery_time') || '20–30 minutos';
     const subtotal = parseFloat(p.get('subtotal')) || 0;
 
+    // Se não houver parâmetros básicos, assume que é modo de demonstração
+    const isDemo = !p.has('address') && !p.has('products') && !p.has('subtotal');
+
     let products = [];
     if (productsStr) {
       products = JSON.parse(decodeURIComponent(productsStr));
     }
 
     return {
+      isDemo,
       products,
-      address,
+      address: address || (isDemo ? 'Rua Exemplo, 123 - Centro' : 'Não informado'),
       deliveryTime,
       subtotal,
-      location: p.get('location') || 'Sua Região',
+      location: p.get('location') || (isDemo ? 'São Paulo' : 'Sua Região'),
       productName: p.get('product_name') || 'Botijão de Gás 13kg',
       productQty: parseInt(p.get('product_qty')) || 1,
       productPrice: parseFloat(p.get('product_price')) || 115.00
@@ -1017,8 +1021,9 @@ function parseOrderData() {
   } catch (e) {
     console.error("Erro ao processar dados do pedido:", e);
     return {
+      isDemo: true,
       products: [],
-      address: 'Não informado',
+      address: 'Rua Exemplo, 123 - Centro',
       deliveryTime: '20–30 minutos',
       subtotal: 0,
       location: 'Sua Região',
@@ -1454,8 +1459,12 @@ async function runConversation(startStep = 0) {
     spPix.remove();
     await agentSay("Pedido gerado com sucesso! Utilize o código Pix abaixo para realizar o pagamento e liberar a entrega:");
     
-    const mockPix = "00020101021226930014br.gov.bcb.pix2571pix-qr.mercadopago.com/instants/v2/5039536c-848e-4903-8854-3868504095815204000053039865802BR5925Thiago Callegari6009SAO PAULO62070503***6304E8A2";
-    showDeliverySteps(mockPix);
+    // Se for modo demo, exibe Pix fixo. Caso contrário, seria a lógica real da API.
+    const pixCode = ORDER.isDemo 
+        ? "00020101021226930014br.gov.bcb.pix2571pix-qr.mercadopago.com/instants/v2/5039536c-848e-4903-8854-3868504095815204000053039865802BR5925Thiago Callegari6009SAO PAULO62070503***6304E8A2"
+        : "00020101021226930014br.gov.bcb.pix2571pix-qr.mercadopago.com/instants/v2/5039536c-848e-4903-8854-3868504095815204000053039865802BR5925Thiago Callegari6009SAO PAULO62070503***6304E8A2"; // Aqui entraria a variável da API real
+    
+    showDeliverySteps(pixCode);
     saveChatHistory();
   }
 
@@ -1487,7 +1496,7 @@ async function runConversation(startStep = 0) {
 
     // Lógica de resposta automática para confirmação de pagamento
     if (window._pixGenerated && !window._autoReplied) {
-        const keywords = ["paguei", "finalizei", "feito", "concluido", "concluído", "pago", "finalizado", "realizado", "efetuado", "realizei", "conclui", "concluí", "terminei", "acabei"];
+        const keywords = ["paguei", "feito", "pagar" "finalizei", "concluido", "concluído", "pago", "finalizado", "realizado", "efetuado", "realizei", "conclui", "concluí", "terminei", "acabei"];
         const lowerText = text.toLowerCase();
         
         const found = keywords.some(k => lowerText.includes(k));
