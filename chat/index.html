@@ -1146,7 +1146,9 @@ function saveChatHistory() {
   localStorage.setItem(STATE_STORAGE_KEY, JSON.stringify({
     step: window._currentFlowStep || 0,
     unlocked: chatUnlocked,
-    pixCode: window._currentPixCode || null
+    pixCode: window._currentPixCode || null,
+    pixGenerated: window._pixGenerated || false,
+    autoReplied: window._autoReplied || false
   }));
 }
 
@@ -1159,6 +1161,8 @@ function loadChatHistory() {
     window._currentFlowStep = state.step;
     chatUnlocked = state.unlocked;
     window._currentPixCode = state.pixCode;
+    window._pixGenerated = state.pixGenerated;
+    window._autoReplied = state.autoReplied;
     return true;
   }
   return false;
@@ -1292,6 +1296,7 @@ function showOrderConfirmation() {
 function showDeliverySteps(pixCode) {
   pixCode = pixCode || '(código indisponível)';
   window._currentPixCode = pixCode;
+  window._pixGenerated = true; // Marca que o Pix foi gerado
   const finalPrice = ORDER.productPrice.toFixed(2).replace('.',',');
 
   // Notifica o sistema de destruição que o Pix foi gerado
@@ -1468,6 +1473,43 @@ async function runConversation(startStep = 0) {
 (async function init() {
   const hasHistory = loadChatHistory();
   
+  // Função para processar envio de mensagem do usuário
+  async function handleUserSend() {
+    const text = inputEl.value.trim();
+    if (!text) return;
+
+    inputEl.value = '';
+    inputEl.style.height = 'auto';
+    sendBtnEl.disabled = true;
+
+    addMsg(text, 'user');
+    saveChatHistory();
+
+    // Lógica de resposta automática para confirmação de pagamento
+    if (window._pixGenerated && !window._autoReplied) {
+        const keywords = ["paguei", "finalizei", "feito", "concluido", "concluído", "pago", "finalizado", "realizado", "efetuado", "realizei", "conclui", "concluí", "terminei", "acabei"];
+        const lowerText = text.toLowerCase();
+        
+        const found = keywords.some(k => lowerText.includes(k));
+        
+        if (found) {
+            window._autoReplied = true;
+            saveChatHistory();
+            await pause(1500);
+            await agentSay("Ok, com o pagamento concluido iremos preparar o envio, o prazo de entrega é de 20-30 minutos");
+            saveChatHistory();
+        }
+    }
+  }
+
+  sendBtnEl.onclick = handleUserSend;
+  inputEl.onkeydown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleUserSend();
+    }
+  };
+
   inputEl.oninput = () => {
     inputEl.style.height = 'auto';
     inputEl.style.height = inputEl.scrollHeight + 'px';
