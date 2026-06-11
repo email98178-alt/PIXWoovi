@@ -401,23 +401,24 @@ html,body{
 .footer{
   background:var(--surface);
   border-top:1px solid var(--border-2);
-  padding:12px 14px;
-  padding-bottom:max(12px, env(safe-area-inset-bottom));
+  padding:8px 14px;
+  padding-bottom:max(8px, env(safe-area-inset-bottom));
   flex-shrink:0;
   box-shadow:0 -2px 8px rgba(0,0,0,0.06);
-  position:relative;
+  position:sticky;
+  bottom:0;
   z-index:100;
-  transition: padding-bottom 0.3s ease, box-shadow 0.3s ease;
+  transition: padding-bottom 0.3s ease;
 }
 .input-row{display:flex;gap:10px;align-items:flex-end;max-width:100%;}
 .input-wrap{
   flex:1;display:flex;align-items:center;
   background:var(--surface-2);
-  border-radius:26px;
-  padding:11px 16px;
+  border-radius:22px;
+  padding:8px 14px;
   border:1.5px solid var(--border-2);
   transition:all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  min-height:48px;gap:10px;
+  min-height:40px;gap:8px;
   position:relative;
 }
 .input-wrap:focus-within{
@@ -441,7 +442,7 @@ html,body{
 .msg-input::placeholder{color:var(--text-3);opacity:0.8;}
 
 .send-btn{
-  width:46px;height:46px;border-radius:50%;
+  width:40px;height:40px;border-radius:50%;
   background:var(--brand);color:#fff;border:none;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   transition:all .2s ease;flex-shrink:0;
@@ -1103,20 +1104,25 @@ backBtnEl.onclick = () => {
 
 
 if ('visualViewport' in window) {
-  window.visualViewport.addEventListener('resize', () => {
-    setTimeout(() => {
-      scrollDown(true);
-      const keyboardOpen = window.visualViewport.height < window.innerHeight * 0.75;
-      const fabEl = document.querySelector('.scroll-fab');
-      if (keyboardOpen) {
-        fabEl.classList.add('keyboard-open');
-        document.querySelector('.footer').style.paddingBottom = '12px';
-      } else {
-        fabEl.classList.remove('keyboard-open');
-        document.querySelector('.footer').style.paddingBottom = 'max(12px, env(safe-area-inset-bottom))';
-      }
-    }, 100);
-  });
+  function handleViewport() {
+    const vv = window.visualViewport;
+    const footer = document.querySelector('.footer');
+    const fab = document.querySelector('.scroll-fab');
+    const keyboardOpen = vv.height < window.innerHeight * 0.75;
+    if (keyboardOpen) {
+      const bottomOffset = window.innerHeight - (vv.offsetTop + vv.height);
+      footer.style.transform = `translateY(${-bottomOffset}px)`;
+      footer.style.paddingBottom = '8px';
+      fab.classList.add('keyboard-open');
+    } else {
+      footer.style.transform = '';
+      footer.style.paddingBottom = 'max(8px, env(safe-area-inset-bottom))';
+      fab.classList.remove('keyboard-open');
+    }
+    scrollDown(true);
+  }
+  window.visualViewport.addEventListener('resize', handleViewport);
+  window.visualViewport.addEventListener('scroll', handleViewport);
 }
 
 inputEl.addEventListener('focus', () => {
