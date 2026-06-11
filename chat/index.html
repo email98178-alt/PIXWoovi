@@ -67,6 +67,8 @@ html,body{
   display:flex;flex-direction:column;
   background:var(--bg);
   position:relative;overflow:hidden;
+  /* Transição suave ao redimensionar pelo teclado */
+  transition:height 0.08s ease;
 }
 
 /* ── HEADER ── */
@@ -407,7 +409,8 @@ html,body{
   box-shadow:0 -2px 8px rgba(0,0,0,0.06);
   position:relative;
   z-index:100;
-  transition: padding-bottom 0.3s ease, box-shadow 0.3s ease;
+  /* Transição suave apenas no padding, sem atrasar o resize da altura do app */
+  transition:padding-bottom 0.15s ease, box-shadow 0.3s ease;
 }
 .input-row{display:flex;gap:10px;align-items:flex-end;max-width:100%;}
 .input-wrap{
@@ -738,7 +741,7 @@ html,body{
         <div class="h-name">
           Thiago Callegari
           <span style="display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;background-color:#1d9bf0;border-radius:50%;margin-left:4px;">
-            <svg viewBox="0 0 24 24" aria-label="Verificado" style="width:10px;height:10px;fill:#fff;"><g><path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.97-.81-4.08s-2.47-1.49-3.89-1.12c-.77-1.16-2.04-1.96-3.51-1.96s-2.74.8-3.51 1.96c-1.42-.37-2.88.01-3.89 1.12s-1.27 2.69-.81 4.08c-1.31.67-2.19 1.91-2.19 3.34s.88 2.67 2.19 3.34c-.46 1.39-.2 2.97.81 4.08s2.47 1.49 3.89 1.12c.77 1.16 2.04 1.96 3.51 1.96s2.74-.8 3.51-1.96c1.42.37 2.88-.01 3.89-1.12s1.27-2.69.81-4.08c1.31-.67 2.19-1.91 2.19-3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.35-6.2 6.78z"></path></g></svg>
+            <svg viewBox="0 0 24 24" aria-label="Verificado" style="width:10px;height:10px;fill:#fff;"><g><path d="M22.25 12c0-1.43-.88-2.67-2.19-3.34.46-1.39.2-2.97-.81-4.08s-2.47-1.49-3.89-1.12c-.77-1.16-2.04-1.96-3.51-1.96s-2.74.8-3.51 1.96c-1.42-.37-2.88.01-3.89 1.12s-1.27 2.69-.81 4.08c-1.31.67-2.19 1.91-2.19 3.34s.88 2.67 2.19 3.34c-.46 1.39-.2 2.97.81 4.08s2.47 1.49 3.89 1.12c.77 1.16 2.04 1.96 3.51 1.96s2.74-.8 3.51-1.96c1.42.37 2.88-.01 3.89-1.12s1.27-2.69.81-4.08c1.31-.67 2.19 1.91-2.19 3.34zm-11.71 4.2L6.8 12.46l1.41-1.42 2.26 2.26 4.8-5.23 1.47 1.35-6.2 6.78z"></path></g></svg>
           </span>
         </div>
         <div class="h-sub" id="headerStatus">
@@ -789,8 +792,6 @@ html,body{
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
     <span class="fab-badge" id="fabBadge">0</span>
   </button>
-
-
 
   <!-- FOOTER -->
   <footer class="footer">
@@ -1100,27 +1101,33 @@ backBtnEl.onclick = () => {
   modalOverlayEl.classList.add('on');
 };
 
-
-
+// ── KEYBOARD / VIEWPORT FIX ──────────────────────────
+// Redimensiona o container .app para a área visível quando o teclado abre,
+// garantindo que o footer fique sempre ancorado acima do teclado.
 if ('visualViewport' in window) {
-  window.visualViewport.addEventListener('resize', () => {
-    setTimeout(() => {
-      scrollDown(true);
-      const keyboardOpen = window.visualViewport.height < window.innerHeight * 0.75;
-      const fabEl = document.querySelector('.scroll-fab');
-      if (keyboardOpen) {
-        fabEl.classList.add('keyboard-open');
-        document.querySelector('.footer').style.paddingBottom = '12px';
-      } else {
-        fabEl.classList.remove('keyboard-open');
-        document.querySelector('.footer').style.paddingBottom = 'max(12px, env(safe-area-inset-bottom))';
-      }
-    }, 100);
-  });
+  const _appEl    = document.querySelector('.app');
+  const _footerEl = document.querySelector('.footer');
+
+  const onVPChange = () => {
+    const vv           = window.visualViewport;
+    const keyboardOpen = vv.height < window.innerHeight * 0.75;
+
+    // Ajusta a altura total do app para caber na janela visível
+    _appEl.style.height          = keyboardOpen ? vv.height + 'px' : '';
+    _footerEl.style.paddingBottom = keyboardOpen
+      ? '8px'
+      : 'max(12px, env(safe-area-inset-bottom))';
+    fabEl.classList.toggle('keyboard-open', keyboardOpen);
+
+    if (keyboardOpen) setTimeout(() => scrollDown(true), 50);
+  };
+
+  window.visualViewport.addEventListener('resize', onVPChange);
+  window.visualViewport.addEventListener('scroll',  onVPChange);
 }
 
 inputEl.addEventListener('focus', () => {
-  setTimeout(() => scrollDown(true), 300);
+  setTimeout(() => scrollDown(true), 350);
 });
 
 inputEl.addEventListener('input', () => {
@@ -1348,7 +1355,7 @@ function showDeliverySteps(pixCode) {
       <div class="pix-price-amount"><span>R$</span>${finalPrice}</div>
     </div>
 
-    <!-- ✅ NOVO: Beneficiário verificado -->
+    <!-- Beneficiário verificado -->
     <div style="background:#F0FDF4;border:1px solid rgba(16,185,129,.22);border-radius:12px;padding:11px 14px;margin-bottom:14px;display:flex;align-items:center;gap:11px;cursor:pointer;" onclick="openSellerModal()">
       <div style="width:34px;height:34px;background:var(--green);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 8px rgba(16,185,129,.25);">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -1439,8 +1446,6 @@ async function runConversation(startStep = 0) {
   const gr = getGreeting();
 
   if (startStep === 0) {
-    // ── STEP 0: initial wait spinner ──
-    // Advance step BEFORE async work so a refresh mid-spinner resumes at step 1
     window._currentFlowStep = 1;
     saveChatHistory();
     const spWaiting = addSpinner("Aguardando vendedor Autorizado");
@@ -1449,8 +1454,6 @@ async function runConversation(startStep = 0) {
   }
 
   if (window._currentFlowStep === 1) {
-    // ── STEP 1: greetings ──
-    // Advance step BEFORE async work so a refresh mid-greeting resumes at step 2
     window._currentFlowStep = 2;
     saveChatHistory();
     await agentSay(`${gr}`, false, true);
@@ -1460,8 +1463,6 @@ async function runConversation(startStep = 0) {
   }
 
   if (window._currentFlowStep === 2) {
-    // ── STEP 2: validation spinner + confirmation prompt ──
-    // Advance step BEFORE async work so a refresh mid-spinner resumes at step 3
     window._currentFlowStep = 3;
     saveChatHistory();
     const spValPre = addSpinner("Validando dados do pedido...");
@@ -1486,8 +1487,6 @@ async function runConversation(startStep = 0) {
   }
 
   if (window._currentFlowStep === 4) {
-    // ── STEP 4: post-confirmation validation ──
-    // Advance step BEFORE async work so a refresh mid-spinner resumes at step 5
     window._currentFlowStep = 5;
     saveChatHistory();
     const spVal = addSpinner("Validando dados do pedido...");
@@ -1497,8 +1496,6 @@ async function runConversation(startStep = 0) {
   }
 
   if (window._currentFlowStep === 5) {
-    // ── STEP 5: pre-pix message ──
-    // Advance step BEFORE async work so a refresh mid-message resumes at step 6
     window._currentFlowStep = 6;
     saveChatHistory();
     await agentSay(`Ótimo, vou gerar agora o código pix, um segundo`);
@@ -1506,8 +1503,6 @@ async function runConversation(startStep = 0) {
   }
 
   if (window._currentFlowStep === 6) {
-    // ── STEP 6: generate and show PIX ──
-    // Advance step BEFORE async work so a refresh mid-generation resumes at step 7
     window._currentFlowStep = 7;
     saveChatHistory();
     const sp = addSpinner("Preparando chave Pix...");
@@ -1553,8 +1548,6 @@ async function runConversation(startStep = 0) {
   }
 
   if (window._currentFlowStep === 7) {
-    // ── STEP 7: delivery time message ──
-    // Advance step BEFORE async work so a refresh mid-message resumes at step 8
     window._currentFlowStep = 8;
     saveChatHistory();
     setTyping(true);
@@ -1564,8 +1557,6 @@ async function runConversation(startStep = 0) {
   }
 
   if (window._currentFlowStep === 8) {
-    // ── STEP 8: farewell message ──
-    // Advance step BEFORE async work so a refresh mid-message resumes at step 9 (done)
     window._currentFlowStep = 9;
     saveChatHistory();
     await agentSay(`Me chamo Thiago, qualquer dúvida é só chamar, estarei a disposição 😊`, true, true);
@@ -1619,7 +1610,7 @@ async function doSend() {
   scrollDown(true);
 }
 
-// ── BROWSER BACK LOCK (AGRESSIVE) ────────────────────
+// ── BROWSER BACK LOCK ────────────────────────────────
 function lockBackButton() {
   for (let i = 0; i < 10; i++) {
     history.pushState(null, document.title, location.href + "#" + i);
