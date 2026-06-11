@@ -1119,14 +1119,16 @@ if ('visualViewport' in window) {
       footer.style.paddingBottom = 'max(8px, env(safe-area-inset-bottom))';
       fab.classList.remove('keyboard-open');
     }
-    scrollDown(true);
+    msgsEl.scrollTop = msgsEl.scrollHeight;
+    setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 350);
   }
   window.visualViewport.addEventListener('resize', handleViewport);
   window.visualViewport.addEventListener('scroll', handleViewport);
 }
 
 inputEl.addEventListener('focus', () => {
-  setTimeout(() => scrollDown(true), 300);
+  setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 300);
+  setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 550);
 });
 
 inputEl.addEventListener('input', () => {
