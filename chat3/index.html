@@ -1798,7 +1798,7 @@ function lockBackButton() {
     }
   } else {
     // New conversation
-    const { onReadPromise } = addMsg('Olá! Gostaria de fazer meu pedido.','user');
+    const { onReadPromise } = addMsg('Olá! Gostaria de pagar agora via Pix.','user');
     await pause(500);
 
     const connSys = addSys('Conexão criptografada estabelecida','secure');
