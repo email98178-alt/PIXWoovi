@@ -1612,7 +1612,7 @@ async function doSend() {
   const isLongMessage = wordCount > 2 && !(foundPaymentTerm && window._currentFlowStep >= 6);
 
   const { row } = addMsg(originalText, 'user');
-  await pause(600);
+  await pause(1600);
 
   if (foundPaymentTerm && window._currentFlowStep >= 6 && !window._paymentConfirmed) {
     window._paymentConfirmed = true;
