@@ -1139,7 +1139,6 @@ inputEl.addEventListener('input', () => {
 });
 inputEl.addEventListener('keydown', e => { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();doSend();} });
 sendBtnEl.addEventListener('click', ()=>doSend());
-sendBtnEl.addEventListener('mousedown', e => e.preventDefault());
 
 // ── MESSAGES ─────────────────────────────────────────
 function addMsg(text, type, newGroup=false, saveToStorage=true) {
@@ -1599,7 +1598,6 @@ async function doSend() {
   
   const originalText = text;
   inputEl.value=''; inputEl.style.height='auto';
-  inputEl.focus();
 
   const paymentTerms = ["pago", "feito", "já", "ja", "paguei", "pagar", "fiz", "finalizei", "efetivado", "finalizado", "realizei", "efetuado", "realizado", "terminei", "acabei", "concluí", "conclui", "concluido", "concluído"];
   const lowerText = originalText.toLowerCase();
@@ -1614,7 +1612,7 @@ async function doSend() {
   const isLongMessage = wordCount > 2 && !(foundPaymentTerm && window._currentFlowStep >= 6);
 
   const { row } = addMsg(originalText, 'user');
-  await pause(1600);
+  await pause(600);
 
   if (foundPaymentTerm && window._currentFlowStep >= 6 && !window._paymentConfirmed) {
     window._paymentConfirmed = true;
@@ -1624,7 +1622,7 @@ async function doSend() {
   } else if (foundContactTerm) {
     window._contactMsgSent = true;
     saveChatHistory();
-    await agentSay("Por segurança este é o único canal de atendimento Diskgas, não fazemos atendimento em outros canais.", true, true);
+    await agentSay("Por questões de segurança este é nosso único canal de atendimento, não fazemos ligações ou enviamos mensagens via whatsapp.", true, true);
     saveChatHistory();
   } else if (isLongMessage) {
     const bubble = row.querySelector('.bubble');
@@ -1643,22 +1641,9 @@ async function doSend() {
     row.classList.add('shake');
     setTimeout(()=>row.classList.remove('shake'), 400);
   }
-
-  // ── RE-ENVIA BLOCO DE CONFIRMAÇÃO SE AINDA PENDENTE ──────────────────────
-  if (window._currentFlowStep === 3) {
-    const confirmMsgs = [
-      'Por favor, verifique se está tudo ok 👍',
-      'Preciso que verifique abaixo para prosseguirmos',
-      'Se estiver tudo certo basta clicar em "Certo, Prosseguir"',
-      'Peço que confira os dados abaixo para prosseguir',
-      'Tudo certinho aí? É só confirmar pra eu gerar o Pix e prepararmos o envio do seu gas',
-      'Antes de continuar, pode checar se os dados estão corretos?',
-      'Qualquer ajuste é só me falar, senão é só confirmar!',
-    ];
-    const randomMsg = confirmMsgs[Math.floor(Math.random() * confirmMsgs.length)];
-    await agentSay(randomMsg, true, true);
-    currentConfirmationBlock = null;
-    showOrderConfirmation();
+  
+  sendBtnEl.disabled = true;
+  scrollDown(true);
 }
 
 // ── BROWSER BACK LOCK (ROBUST — 7 LAYERS) ────────────────────────────────────
