@@ -1456,7 +1456,7 @@ async function runConversation(startStep = 0) {
     await agentSay(`${gr}`, false, true);
     await pause(300);
     await agentSay(`Sou Thiago, vendedor autorizado Diskgas em ${location} e região`, false, true);
-    await pause(1500);
+    await pause(800);
   }
 
   if (window._currentFlowStep === 2) {
@@ -1473,7 +1473,7 @@ async function runConversation(startStep = 0) {
 
   let action;
   if (window._currentFlowStep === 3) {
-    await pause(300);
+    await pause(400);
     action = await showOrderConfirmation();
     if (action === 'correct') {
       window._currentFlowStep = 4;
