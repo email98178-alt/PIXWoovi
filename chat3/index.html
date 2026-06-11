@@ -1641,7 +1641,14 @@ async function doSend() {
     row.classList.add('shake');
     setTimeout(()=>row.classList.remove('shake'), 400);
   }
-  
+
+  // ── RE-ENVIA BLOCO DE CONFIRMAÇÃO SE AINDA PENDENTE ──────────────────────
+  if (window._currentFlowStep === 3) {
+    await agentSay('Por favor, confirme os dados do pedido para prosseguirmos 😊', true, true);
+    currentConfirmationBlock = null;   // força criação de novo bloco
+    showOrderConfirmation();            // reutiliza o mesmo confirmationResolve → flow continua normalmente
+  }
+
   sendBtnEl.disabled = true;
   scrollDown(true);
 }
