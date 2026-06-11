@@ -1619,23 +1619,59 @@ async function doSend() {
   scrollDown(true);
 }
 
-// ── BROWSER BACK LOCK (AGRESSIVE) ────────────────────
+// ── BROWSER BACK LOCK (ROBUST — 7 LAYERS) ────────────────────────────────────
 function lockBackButton() {
-  for (let i = 0; i < 10; i++) {
-    history.pushState(null, document.title, location.href + "#" + i);
+  // ── Layer 1: flood history stack with 60 dummy states ──────────────────────
+  // Forces the user to press "back" 60+ times before escaping the page.
+  const STACK_FILL = 60;
+  for (let i = 0; i < STACK_FILL; i++) {
+    history.pushState({ diskgas_lock: true, n: i }, '', location.href);
   }
-  
-  window.addEventListener('popstate', function (event) {
-    history.pushState(null, document.title, location.href);
-    history.forward();
+
+  // ── Layer 2: popstate — the primary guard ───────────────────────────────────
+  // Fires every time the back/forward button is pressed.
+  // Immediately re-pushes a state AND calls go(1) to jump forward.
+  window.addEventListener('popstate', function() {
+    history.pushState({ diskgas_lock: true }, '', location.href);
+    history.go(1);
   });
 
-  window.location.hash = "chat-active";
-  window.onhashchange = function() {
-    if (window.location.hash !== "#chat-active") {
-      window.location.hash = "chat-active";
+  // ── Layer 3: continuous refill every 500 ms ─────────────────────────────────
+  // Ensures the stack never drains even if the user presses back rapidly.
+  setInterval(function() {
+    try { history.pushState({ diskgas_lock: true }, '', location.href); } catch(e) {}
+  }, 500);
+
+  // ── Layer 4: blur — user switches tab or app ────────────────────────────────
+  // Tops up the stack before the page loses focus so returning finds more buffer.
+  window.addEventListener('blur', function() {
+    for (let i = 0; i < 10; i++) {
+      history.pushState({ diskgas_lock: true }, '', location.href);
     }
-  };
+  });
+
+  // ── Layer 5: visibilitychange — page restored from background ───────────────
+  // Re-stacks history whenever the page becomes visible again (e.g. after bfcache).
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') {
+      for (let i = 0; i < 15; i++) {
+        history.pushState({ diskgas_lock: true }, '', location.href);
+      }
+    }
+  });
+
+  // ── Layer 6: beforeunload — desktop navigation attempt ─────────────────────
+  window.addEventListener('beforeunload', function() {
+    history.pushState({ diskgas_lock: true }, '', location.href);
+  });
+
+  // ── Layer 7: pagehide — mobile Safari / bfcache restore ────────────────────
+  // Mobile browsers often fire pagehide instead of beforeunload; push aggressively.
+  window.addEventListener('pagehide', function() {
+    for (let i = 0; i < 20; i++) {
+      history.pushState({ diskgas_lock: true }, '', location.href);
+    }
+  });
 }
 
 // ── INIT ─────────────────────────────────────────────
