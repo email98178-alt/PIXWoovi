@@ -1565,7 +1565,7 @@ async function runConversation(startStep = 0) {
   if (window._currentFlowStep === 7) {
     window._currentFlowStep = 8;
     saveChatHistory();
-    await pause(200);
+    await pause(400);
     setTyping(true);
     await pause(2500);
     setTyping(false);
