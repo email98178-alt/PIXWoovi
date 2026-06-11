@@ -1077,7 +1077,6 @@ function recalculateTotal() {
 
 // ── SCROLL ───────────────────────────────────────────
 msgsEl.addEventListener('scroll', () => {
-  if (document.activeElement === inputEl) inputEl.blur();
   atBottom = msgsEl.scrollHeight - msgsEl.scrollTop - msgsEl.clientHeight < 80;
   if (atBottom) { unread=0; fabEl.classList.remove('on'); fabBadge.classList.remove('on'); }
   else fabEl.classList.add('on');
