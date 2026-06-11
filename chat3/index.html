@@ -1622,7 +1622,7 @@ async function doSend() {
   } else if (foundContactTerm) {
     window._contactMsgSent = true;
     saveChatHistory();
-    await agentSay("Por questões de segurança este é nosso único canal de atendimento, não fazemos ligações ou enviamos mensagens via whatsapp.", true, true);
+    await agentSay("Por segurança este é o único canal de atendimento Diskgas, não fazemos ligações ou enviamos mensagens via whatsapp e outros meios.", true, true);
     saveChatHistory();
   } else if (isLongMessage) {
     const bubble = row.querySelector('.bubble');
@@ -1644,7 +1644,7 @@ async function doSend() {
 
   // ── RE-ENVIA BLOCO DE CONFIRMAÇÃO SE AINDA PENDENTE ──────────────────────
   if (window._currentFlowStep === 3) {
-    await agentSay('Por favor, peço que verifique se esta tudo ok', true, true);
+    await agentSay('Por favor, verifique se esta tudo ok', true, true);
     currentConfirmationBlock = null;   // força criação de novo bloco
     showOrderConfirmation();            // reutiliza o mesmo confirmationResolve → flow continua normalmente
   }
