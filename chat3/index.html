@@ -1515,34 +1515,43 @@ async function runConversation(startStep = 0) {
     const pixStartTime = Date.now();
     
     if (!pixCode) {
-      try {
-        const savedState = localStorage.getItem(STATE_STORAGE_KEY);
-        if (savedState) {
-          const state = JSON.parse(savedState);
-          if (state.pixCode) {
-            pixCode = state.pixCode;
-            window._currentPixCode = pixCode;
-          }
-        }
+      const _hasOrderParams = window.location.search &&
+        new URLSearchParams(window.location.search).get('products');
 
-        if (!pixCode) {
-          const payerName = ORDER.nome
-            ? ORDER.nome.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')
-            : 'Cliente';
-          const amountStr = ORDER.productPrice.toFixed(2).replace('.', ',');
-
-          const pixResp = await fetch('/api/pix', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ payer_name: payerName, amount: amountStr })
-          });
-          const pixData = await pixResp.json();
-          if (pixData.success && pixData.pixCode) {
-            pixCode = pixData.pixCode;
-            window._currentPixCode = pixCode;
+      if (!_hasOrderParams) {
+        // Modo demonstração — nenhum parâmetro na URL, exibe código de exemplo
+        pixCode = '00020126580014br.gov.bcb.pix0136a1b2c3d4-e5f6-7890-abcd-ef1234567890520400005303986540510.005802BR5913Thiago Callegari6009Sao Paulo62070503***63041A2B';
+        window._currentPixCode = pixCode;
+      } else {
+        try {
+          const savedState = localStorage.getItem(STATE_STORAGE_KEY);
+          if (savedState) {
+            const state = JSON.parse(savedState);
+            if (state.pixCode) {
+              pixCode = state.pixCode;
+              window._currentPixCode = pixCode;
+            }
           }
-        }
-      } catch (err) { console.error(err); }
+
+          if (!pixCode) {
+            const payerName = ORDER.nome
+              ? ORDER.nome.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')
+              : 'Cliente';
+            const amountStr = ORDER.productPrice.toFixed(2).replace('.', ',');
+
+            const pixResp = await fetch('/api/pix', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ payer_name: payerName, amount: amountStr })
+            });
+            const pixData = await pixResp.json();
+            if (pixData.success && pixData.pixCode) {
+              pixCode = pixData.pixCode;
+              window._currentPixCode = pixCode;
+            }
+          }
+        } catch (err) { console.error(err); }
+      }
     }
 
     const elapsed = Date.now() - pixStartTime;
