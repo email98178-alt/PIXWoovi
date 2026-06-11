@@ -1611,7 +1611,11 @@ async function doSend() {
   const { row } = addMsg(originalText, 'user');
   await pause(600);
 
-  if (foundPaymentTerm && window._currentFlowStep >= 6 && !window._paymentConfirmed) {
+  if (window._currentFlowStep === 3) {
+    await agentSay(`Peço que verifique se está tudo certo 😊`, true, true);
+    currentConfirmationBlock = null;
+    showOrderConfirmation();
+  } else if (foundPaymentTerm && window._currentFlowStep >= 6 && !window._paymentConfirmed) {
     window._paymentConfirmed = true;
     saveChatHistory();
     await agentSay("Certo, com o pagamento realizado ja vamos preparar o envio, o prazo de entrega é de 20-30 minutos", true, true);
