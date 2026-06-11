@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Diskgas — Atendimento</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
 <style>
@@ -58,7 +58,7 @@ html,body{
   height:100%;width:100%;
   font-family:'DM Sans',sans-serif;
   background:#0d1117;
-  display:flex;justify-content:center;align-items:center;
+  display:flex;justify-content:center;align-items:flex-start;
   overflow:hidden;
 }
 
@@ -1112,13 +1112,11 @@ if ('visualViewport' in window) {
     const keyboardOpen = vv.height < window.innerHeight * 0.75;
 
     app.style.height = vv.height + 'px';
-    footer.style.transform = '';
 
     if (keyboardOpen) {
       footer.style.paddingBottom = '8px';
       fab.classList.add('keyboard-open');
-      msgsEl.scrollTop = msgsEl.scrollHeight;
-      setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 150);
+      requestAnimationFrame(() => { msgsEl.scrollTop = msgsEl.scrollHeight; });
     } else {
       app.style.height = '';
       footer.style.paddingBottom = 'max(8px, env(safe-area-inset-bottom))';
@@ -1130,8 +1128,8 @@ if ('visualViewport' in window) {
 }
 
 inputEl.addEventListener('focus', () => {
-  setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 100);
-  setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 400);
+  requestAnimationFrame(() => { msgsEl.scrollTop = msgsEl.scrollHeight; });
+  setTimeout(() => { msgsEl.scrollTop = msgsEl.scrollHeight; }, 350);
 });
 
 inputEl.addEventListener('input', () => {
