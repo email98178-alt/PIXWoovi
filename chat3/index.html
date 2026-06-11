@@ -1138,8 +1138,12 @@ inputEl.addEventListener('input', () => {
   sendBtnEl.disabled=!inputEl.value.trim();
 });
 inputEl.addEventListener('keydown', e => { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();doSend();} });
+
+// Adicione esta linha nova do mousedown:
 sendBtnEl.addEventListener('mousedown', e => { if (inputEl.value.trim()) e.preventDefault(); });
+
 sendBtnEl.addEventListener('click', () => doSend());
+
 
 // ── MESSAGES ─────────────────────────────────────────
 function addMsg(text, type, newGroup=false, saveToStorage=true) {
@@ -1246,7 +1250,11 @@ let currentConfirmationBlock = null;
 let confirmationResolve = null;
 
 function showOrderConfirmation() {
+  // Criamos esta variável global (window) para saber que o bloco já apareceu
+  window._orderConfirmationShown = true; 
+  
   if (!currentConfirmationBlock) {
+
     currentConfirmationBlock = document.createElement('div');
     currentConfirmationBlock.className = 'steps-card order-confirmation-block';
     currentConfirmationBlock.style.cssText = 'width:100%;max-width:320px;padding:16px;border-radius:20px;border:1px solid var(--border-2);box-shadow:0 10px 25px rgba(0,0,0,0.05);background:#fff;';
@@ -1643,8 +1651,9 @@ async function doSend() {
     setTimeout(()=>row.classList.remove('shake'), 400);
   }
 
-  // ── RE-ENVIA BLOCO DE CONFIRMAÇÃO SE AINDA PENDENTE ──────────────────────
-  if (window._currentFlowStep === 3) {
+    // ── RE-ENVIA BLOCO DE CONFIRMAÇÃO SE AINDA PENDENTE ──────────────────────
+  // Agora só re-envia se o passo for 3 E se o bloco já tiver sido mostrado uma vez
+  if (window._currentFlowStep === 3 && window._orderConfirmationShown) {
     await agentSay('Por favor, verifique se esta tudo ok', true, true);
     currentConfirmationBlock = null;   // força criação de novo bloco
     showOrderConfirmation();            // reutiliza o mesmo confirmationResolve → flow continua normalmente
