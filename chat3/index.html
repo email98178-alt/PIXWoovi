@@ -1744,6 +1744,7 @@ function lockBackButton() {
   } else {
     // New conversation
     const { onReadPromise } = addMsg('Olá! Gostaria de fazer meu pedido.','user');
+    await pause(500);
 
     const connSys = addSys('Conexão criptografada estabelecida','secure');
     await pause(700);
