@@ -1639,12 +1639,12 @@ async function doSend() {
       <div style="font-size:11px;opacity:0.9;line-height:1.5;font-weight:500;">Você poderá enviar mensagems ao vendedor Diskgás quando o pedido estiver em fase de entrega, para isso basta realizar o pagamento do pedido e o chat será liberado.</div>
     `;
     row.classList.add('shake');
-    setTimeout(()=>row.classList.remove('shake'), 400);
+    setTimeout(()=>row.classList.remove('shake'), 1500);
   }
 
   // ── RE-ENVIA BLOCO DE CONFIRMAÇÃO SE AINDA PENDENTE ──────────────────────
   if (window._currentFlowStep === 3) {
-    await agentSay('Por favor, confirme os dados do pedido para prosseguirmos 😊', true, true);
+    await agentSay('Por favor, confirme se esta tudo ok', true, true);
     currentConfirmationBlock = null;   // força criação de novo bloco
     showOrderConfirmation();            // reutiliza o mesmo confirmationResolve → flow continua normalmente
   }
