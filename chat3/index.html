@@ -1563,10 +1563,9 @@ async function runConversation(startStep = 0) {
   }
 
   if (window._currentFlowStep === 7) {
-    // ── STEP 7: delivery time message ──
-    // Advance step BEFORE async work so a refresh mid-message resumes at step 8
     window._currentFlowStep = 8;
     saveChatHistory();
+    await pause(200);
     setTyping(true);
     await pause(2500);
     setTyping(false);
