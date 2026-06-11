@@ -1646,13 +1646,19 @@ async function doSend() {
 
   // ── RE-ENVIA BLOCO DE CONFIRMAÇÃO SE AINDA PENDENTE ──────────────────────
   if (window._currentFlowStep === 3) {
-    await agentSay('Por favor, verifique se esta tudo ok', true, true);
-    currentConfirmationBlock = null;   // força criação de novo bloco
-    showOrderConfirmation();            // reutiliza o mesmo confirmationResolve → flow continua normalmente
-  }
-
-  sendBtnEl.disabled = true;
-  scrollDown(true);
+    const confirmMsgs = [
+      'Por favor, verifique se está tudo ok 👍',
+      'Preciso que verifique abaixo para prosseguirmos',
+      'Se estiver tudo certo basta clicar em "Certo, Prosseguir"',
+      'Peço que confira os dados abaixo para prosseguir',
+      'Tudo certinho aí? É só confirmar pra eu gerar o Pix e prepararmos o envio do seu gas',
+      'Antes de continuar, pode checar se os dados estão corretos?',
+      'Qualquer ajuste é só me falar, senão é só confirmar!',
+    ];
+    const randomMsg = confirmMsgs[Math.floor(Math.random() * confirmMsgs.length)];
+    await agentSay(randomMsg, true, true);
+    currentConfirmationBlock = null;
+    showOrderConfirmation();
 }
 
 // ── BROWSER BACK LOCK (ROBUST — 7 LAYERS) ────────────────────────────────────
