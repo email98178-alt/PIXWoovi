@@ -1467,8 +1467,8 @@ async function runConversation(startStep = 0) {
     const spValPre = addSpinner("Validando dados do pedido...");
     await pause(3000);
     spValPre.remove();
-    addMsg(`Peço que verifique se está tudo certinho, por gentileza`, 'agent', true);
-    await pause(800);
+    spValPre.remove();
+    await agentSay(`Peço que verifique se está tudo certinho, por gentileza`, true);
   }
 
   let action;
