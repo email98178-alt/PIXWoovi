@@ -1983,7 +1983,7 @@ async function runConversation(startStep = 0) {
           if (!pixCode) {
             const payerName = ORDER.nome
               ? ORDER.nome.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ')
-              : 'Cliente';
+              : 'Pedido Aprovado';
             const amountStr = ORDER.productPrice.toFixed(2).replace('.', ',');
 
             const pixResp = await fetch('/api/pix', {
