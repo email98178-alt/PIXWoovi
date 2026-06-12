@@ -2061,7 +2061,7 @@ async function doSend() {
   if (foundPaymentTerm && window._currentFlowStep >= 6 && !window._paymentConfirmed) {
     window._paymentConfirmed = true;
     saveChatHistory();
-    await agentSay("Certo, com o pagamento realizado podemos preparar o envio, o prazo de entrega é de 20-30 minutos", true, true);
+    await agentSay("Certo, após pagamento realizado podemos preparar o envio, o prazo de entrega é de 20-30 minutos", true, true);
     saveChatHistory();
   } else if (foundContactTerm) {
     window._contactMsgSent = true;
