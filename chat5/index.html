@@ -1522,7 +1522,9 @@ function showDeliverySteps(pixCode) {
   `;
 
     msgsEl.appendChild(card);
-  scrollDown();
+  scrollDown(true);
+  return card;
+}
 
   // Adiciona vibração no dispositivo (padrão: 200ms)
   if ("vibrate" in navigator) {
