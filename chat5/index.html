@@ -1677,24 +1677,28 @@ async function runConversation(startStep = 0) {
     addSys('Pedido validado com sucesso', 'ok');
   }
 
-      if (window._currentFlowStep === 5) {
+        if (window._currentFlowStep === 5) {
     // ── STEP 5: pre-pix message ──
     window._currentFlowStep = 6;
     saveChatHistory();
 
-    // Lógica para extrair o local e adicionar "e região"
     const localBase = ORDER.location || 'sua região';
     const localFinal = localBase === 'sua região' ? localBase : `${localBase} e região`;
 
-    // Frases personalizadas conforme solicitado
     await agentSay(`Certo, já vou enviar o código pix, um segundo...`);
     await pause(900);
-    await agentSay(`No pix você verá (Thiago Callegari) pois sou o vendedor oficial diskgás em ${localFinal}, sou responsável pela sua entrega 😉`);
-    await pause(1500);
+
+    // Forçamos o estado de "digitando" manualmente por 4 segundos antes de enviar a frase
+    setTyping(true);
+    await pause(4000); // <-- Ajuste aqui o tempo (4000 = 4 segundos)
+    setTyping(false);
     
-    await agentSay(`Gerando seu código Pix, aguarde...`);
-    await pause(1000);
+    // Enviamos a mensagem com o parâmetro 'true' para ser imediata após o tempo acima
+    await addMsg(`No pix você verá (Thiago Callegari) pois sou o vendedor oficial diskgás em ${localFinal}, sou responsável pela sua entrega 😉`, 'agent', true);
+    
+    await pause(600);
   }
+
 
 
 
