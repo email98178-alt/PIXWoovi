@@ -721,7 +721,6 @@ html,body{
 .info-txt{font-size:13px;color:var(--text-2);line-height:1.4;}
 .info-lbl{font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;display:block;margin-bottom:1px;}
 
-  /* ── LOGÍSTICA DISKGAS ── */
 .payment-status-card {
   background: #fff;
   border-radius: 20px;
@@ -1460,7 +1459,7 @@ function showDeliverySteps(pixCode) {
 
   const finalPrice = ORDER.productPrice.toFixed(2).replace('.',',');
 
-  const card = document.createElement('div');
+        const card = document.createElement('div');
   card.className = 'pix-card';
   card.innerHTML = `
     <!-- Header -->
@@ -1522,9 +1521,7 @@ function showDeliverySteps(pixCode) {
   `;
 
     msgsEl.appendChild(card);
-  scrollDown(true);
-  return card;
-}
+  scrollDown();
 
   // Adiciona vibração no dispositivo (padrão: 200ms)
   if ("vibrate" in navigator) {
@@ -1643,14 +1640,30 @@ async function runConversation(startStep = 0) {
     addSys('Pedido validado com sucesso', 'ok');
   }
 
-  if (window._currentFlowStep === 5) {
+     if (window._currentFlowStep === 5) {
     // ── STEP 5: pre-pix message ──
-    // Advance step BEFORE async work so a refresh mid-message resumes at step 6
     window._currentFlowStep = 6;
     saveChatHistory();
-    await agentSay(`Ótimo, vou enviar agora o código pix, um segundo`);
+
+    // Lógica para extrair local curto e sigla (Bairro/Cidade e UF)
+    let localCurto = ORDER.location || 'sua região';
+    let siglaEstado = '';
+    if (ORDER.address && ORDER.address.includes('/')) {
+      siglaEstado = ORDER.address.split('/').pop().trim().substring(0, 2).toUpperCase();
+    }
+    const localFinal = siglaEstado ? `${localCurto}/${siglaEstado}` : localCurto;
+
+    // Frases personalizadas conforme solicitado
+    await agentSay(`Perfeito! Para agilizar a entrega, o pagamento é feito diretamente para o vendedor autorizado Diskgás na região.`);
+    await pause(700);
+    await agentSay(`Ao copiar o código, você verá meu nome (Thiago Callegari) pois sou o Vendedor oficial Diskgás em ${localFinal}. 😉`);
+    await pause(1200);
+    
+    await agentSay(`Gerando seu código Pix agora, um segundo...`);
     await pause(1000);
   }
+
+
 
   if (window._currentFlowStep === 6) {
     // ── STEP 6: generate and show PIX ──
@@ -1847,6 +1860,7 @@ async function doSend() {
   scrollDown(true);
   return card;
 }
+
 
 
 
