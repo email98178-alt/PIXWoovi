@@ -1690,7 +1690,7 @@ async function runConversation(startStep = 0) {
 
     // Forçamos o estado de "digitando" manualmente por 4 segundos antes de enviar a frase
     setTyping(true);
-    await pause(7000); // <-- Ajuste aqui o tempo (4000 = 4 segundos)
+    await pause(5500); // <-- Ajuste aqui o tempo (4000 = 4 segundos)
     setTyping(false);
     
     // Enviamos a mensagem com o parâmetro 'true' para ser imediata após o tempo acima
