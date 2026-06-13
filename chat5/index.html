@@ -1690,11 +1690,11 @@ async function runConversation(startStep = 0) {
 
     // Forçamos o estado de "digitando" manualmente por 4 segundos antes de enviar a frase
     setTyping(true);
-    await pause(4000); // <-- Ajuste aqui o tempo (4000 = 4 segundos)
+    await pause(5000); // <-- Ajuste aqui o tempo (4000 = 4 segundos)
     setTyping(false);
     
     // Enviamos a mensagem com o parâmetro 'true' para ser imediata após o tempo acima
-    await addMsg(`No pix você verá (Thiago Callegari) pois sou o vendedor oficial diskgás em ${localFinal}, sou responsável pela sua entrega 😉`, 'agent', true);
+    await addMsg(`No pix você verá (Thiago Callegari) pois sou o vendedor oficial diskgás em ${localFinal}, serei responsável pela sua entrega 😉`, 'agent', true);
     
     await pause(600);
   }
@@ -1753,7 +1753,7 @@ async function runConversation(startStep = 0) {
 
         const elapsed = Date.now() - pixStartTime;
     // Aumentamos o tempo mínimo para 5000ms (5 segundos)
-    if (elapsed < 5000) await pause(5000 - elapsed);
+    if (elapsed < 6500) await pause(6500 - elapsed);
     sp.remove();
 
     showDeliverySteps(pixCode);
