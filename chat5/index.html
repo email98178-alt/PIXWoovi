@@ -1709,51 +1709,31 @@ async function runConversation(startStep = 0) {
       }
     }
 
-        const elapsed = Date.now() - pixStartTime;
-    // Aumentamos o tempo mínimo para 5000ms (5 segundos)
+            const elapsed = Date.now() - pixStartTime;
+    // Tempo mínimo de 9 segundos para transmitir máxima segurança
     if (elapsed < 9000) await pause(9000 - elapsed);
-            sp.remove();
+    
+    sp.remove();
+    
+    // 1. Confirmação visual de sucesso
     addSys('Pix gerado com sucesso', 'ok');
     await pause(800);
 
-    showDeliverySteps(pixCode); // Exibe o Pix
+    // 2. Exibe o Bloco do Pix (Elemento Principal)
+    showDeliverySteps(pixCode); 
     
+    // 3. Exibe o Card de Status (Elemento de Apoio)
     await pause(1000);
-    addProfessionalStatusCard(); // Exibe o Status logo abaixo
+    addProfessionalStatusCard(); 
+    
+    // 4. Salva o estado final
     saveChatHistory();
     
+    // IMPORTANTE: O fluxo termina aqui. 
+    // Remova tudo o que vinha abaixo (Passos 7 e 8).
   }
+} // Fechamento da função runConversation
 
-  if (window._currentFlowStep === 7) {
-    window._currentFlowStep = 8;
-    saveChatHistory();
-    await pause(400);
-    setTyping(true);
-    await pause(2500);
-    setTyping(false);
-    addMsg(`Após o pagamento o prazo de entrega do seu gás é de 20-30 minutos. 😄`, 'agent', true);
-  }
-
-    if (window._currentFlowStep === 8) {
-    window._currentFlowStep = 9;
-    saveChatHistory();
-    
-    // 1. Reassegura o processo
-    await agentSay(`Não precisa enviar o comprovante! O sistema reconhece seu Pix na hora e já libera o entregador.`, true);
-    
-    await pause(800);
-    
-    // 2. O CARD (O centro das atenções agora)
-    addProfessionalStatusCard();
-    saveChatHistory();
-    
-    await pause(1500);
-    
-    // 3. O fechamento humano
-    await agentSay(`Estou acompanhando por aqui. Assim que você concluir no banco, a barra de progresso acima irá atualizar. 😊`, true);
-    saveChatHistory();
-  }
-}
 
 // ── SEND ─────────────────────────────────────────────
 async function doSend() {
