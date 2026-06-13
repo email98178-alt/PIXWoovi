@@ -1722,21 +1722,6 @@ async function runConversation(startStep = 0) {
 
     showDeliverySteps(pixCode);
   }
-
-    if (window._currentFlowStep === 7) {
-    window._currentFlowStep = 8;
-    saveChatHistory();
-    await pause(1500); // Pausa para o usuário ver o Pix primeiro
-    
-    // Reassegura que é automático (Reduz fricção de "tenho que enviar comprovante?")
-    await agentSay(`O sistema já está monitorando seu Pix. Assim que você concluir no seu banco, receberei a confirmação aqui automaticamente em poucos segundos. 😉`, true);
-  }
-
-  if (window._currentFlowStep === 8) {
-    window._currentFlowStep = 9;
-    saveChatHistory();
-    
-    await agentSay(`Não precisa enviar o comprovante! Enquanto você paga, já deixei sua entrega em prioridade máxima. O prazo é de 20-30 min.`, true);
     
     await pause(1000);
     // Exibe o card de logística que funciona como um "Painel de Controle" para o cliente
