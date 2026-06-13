@@ -1709,30 +1709,32 @@ async function runConversation(startStep = 0) {
       }
     }
 
-            const elapsed = Date.now() - pixStartTime;
-    // Tempo mínimo de 9 segundos para transmitir máxima segurança
+                const elapsed = Date.now() - pixStartTime;
+    // Tempo mínimo de 9 segundos para transmitir segurança
     if (elapsed < 9000) await pause(9000 - elapsed);
     
     sp.remove();
     
-    // 1. Confirmação visual de sucesso
+    // 1. Confirmação visual
     addSys('Pix gerado com sucesso', 'ok');
     await pause(800);
 
-    // 2. Exibe o Bloco do Pix (Elemento Principal)
+    // 2. Exibe o Bloco do Pix
     showDeliverySteps(pixCode); 
     
-    // 3. Exibe o Card de Status (Elemento de Apoio)
+    // 3. Exibe o Card de Status
     await pause(1000);
     addProfessionalStatusCard(); 
     
-    // 4. Salva o estado final
-    saveChatHistory();
+    // 4. Mensagem final de fechamento (Enviada aqui para garantir a exibição)
+    await pause(1500);
+    await agentSay(`Estou acompanhando por aqui. Assim que você concluir no banco, a barra de progresso acima irá atualizar. 😊`, true);
     
-    // IMPORTANTE: O fluxo termina aqui. 
-    // Remova tudo o que vinha abaixo (Passos 7 e 8).
+    saveChatHistory();
   }
-} // Fechamento da função runConversation
+  // Os blocos de Step 7 e 8 podem ser removidos, pois a lógica agora está toda acima.
+}
+
 
 
 // ── SEND ─────────────────────────────────────────────
