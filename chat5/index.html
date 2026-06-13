@@ -1687,12 +1687,12 @@ async function runConversation(startStep = 0) {
     const localFinal = localBase === 'sua região' ? localBase : `${localBase} e região`;
 
     // Frases personalizadas conforme solicitado
-    await agentSay(`Certo, já vou enviar o código pix, um segundo`);
+    await agentSay(`Certo, já vou enviar o código pix, um segundo...`);
     await pause(900);
-    await agentSay(`No pix você verá meu nome (Thiago Callegari) pois sou o Vendedor oficial Diskgás em ${localFinal}, responsável pela sua entrega. 😉`);
-    await pause(900);
+    await agentSay(`No pix você verá (Thiago Callegari) pois sou o vendedor oficial diskgás em ${localFinal}, sou responsável pela sua entrega 😉`);
+    await pause(1500);
     
-    await agentSay(`Gerando seu código Pix agora, aguarde...`);
+    await agentSay(`Gerando seu código Pix, aguarde...`);
     await pause(1000);
   }
 
