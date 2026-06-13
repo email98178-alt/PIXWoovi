@@ -1850,35 +1850,40 @@ async function doSend() {
   function addProfessionalStatusCard() {
   const card = document.createElement('div');
   card.className = 'payment-status-card';
+  card.style.cssText = "background:#fff; border-radius:18px; padding:20px; margin:15px 0; border:1px solid #E2E8F0; box-shadow:0 4px 15px rgba(0,0,0,0.05); animation:fadeUp 0.5s ease;";
+  
   card.innerHTML = `
-    <div class="status-header">
-      <span class="status-badge">Diskgas Oficial</span>
-      <span style="font-size: 11px; color: var(--text-3); font-weight: 600;">Pedido #2849</span>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+      <span style="background:#E8F2FF; color:#0F5BA8; padding:4px 10px; border-radius:20px; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Logística Diskgás</span>
+      <span style="font-size:11px; color:#94A3B8; font-weight:600;">ID do Pedido: #2849</span>
     </div>
     
-    <div class="status-steps">
-      <div class="step-bar completed"></div>
-      <div class="step-bar completed"></div>
-      <div class="step-bar active"></div>
-      <div class="step-bar"></div>
+    <!-- Barra de Progresso Harmoniosa -->
+    <div style="display:flex; gap:6px; margin-bottom:20px;">
+      <div style="height:4px; flex:1; background:#10B981; border-radius:2px;"></div>
+      <div style="height:4px; flex:1; background:#10B981; border-radius:2px;"></div>
+      <div style="height:4px; flex:1; background:#0F5BA8; border-radius:2px; position:relative; overflow:hidden;">
+        <div style="position:absolute; left:0; top:0; height:100%; width:50%; background:rgba(255,255,255,0.4); animation:progressMove 1.5s infinite;"></div>
+      </div>
+      <div style="height:4px; flex:1; background:#E2E8F0; border-radius:2px;"></div>
     </div>
     
-    <div class="status-info">
-      <div class="status-icon-pulse">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-    <path d="m9 12 2 2 4-4"/>
-  </svg>
+    <div style="display:flex; align-items:center; gap:15px;">
+      <div style="width:48px; height:48px; background:#F1F5F9; border-radius:14px; display:flex; align-items:center; justify-content:center; color:#0F5BA8; flex-shrink:0;">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="m9 12 2 2 4-4"/>
+        </svg>
       </div>
       <div>
-        <div class="status-text-main">Aguardando pagamento do PIX...</div>
-        <div class="status-text-sub">O entregador será acionado imediatamente após o PIX.</div>
+        <div style="font-size:14px; font-weight:700; color:#1E293B; margin-bottom:2px;">Aguardando Pagamento</div>
+        <div style="font-size:12px; color:#64748B; line-height:1.4;">O entregador será acionado imediatamente após a confirmação do seu Pix.</div>
       </div>
     </div>
     
-    <div style="margin-top: 15px; padding-top: 12px; border-top: 1px dashed var(--border-2); display: flex; align-items: center; gap: 8px;">
-       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-       <span style="font-size: 11px; color: #059669; font-weight: 700;">Garantia de Entrega Prioritária Ativa</span>
+    <div style="margin-top:16px; padding-top:12px; border-top:1px dashed #E2E8F0; display:flex; align-items:center; gap:8px;">
+       <div style="width:6px; height:6px; background:#10B981; border-radius:50%; animation: pulse-dot 2s infinite;"></div>
+       <span style="font-size:11px; color:#059669; font-weight:700;">Prioridade de entrega nível 1 ativa</span>
     </div>
   `;
   
