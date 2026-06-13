@@ -1754,7 +1754,13 @@ async function runConversation(startStep = 0) {
         const elapsed = Date.now() - pixStartTime;
     // Aumentamos o tempo mínimo para 5000ms (5 segundos)
     if (elapsed < 8000) await pause(8000 - elapsed);
-    sp.remove();
+        sp.remove();
+
+    // Adiciona a etiqueta verde de sucesso
+    addSys('Pix gerado com sucesso', 'ok');
+    
+    // Pequena pausa para o usuário ler a etiqueta antes do bloco aparecer
+    await pause(1000);
 
     showDeliverySteps(pixCode);
   }
