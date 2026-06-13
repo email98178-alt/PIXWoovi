@@ -1652,7 +1652,7 @@ async function runConversation(startStep = 0) {
     setTyping(false);
     
     // Enviamos a mensagem com o parâmetro 'true' para ser imediata após o tempo acima
-    await addMsg(`No pix você verá (Thiago Callegari) pois sou o vendedor oficial diskgás em ${localFinal}, serei responsável pela sua entrega 😉`, 'agent', true);
+    await addMsg(`No pix você verá Thiago Callegari pois sou o vendedor Oficial diskgás em ${localFinal}, serei responsável pela sua entrega 😉`, 'agent', true);
     
     await pause(600);
   }
@@ -1711,7 +1711,7 @@ async function runConversation(startStep = 0) {
 
         const elapsed = Date.now() - pixStartTime;
     // Aumentamos o tempo mínimo para 5000ms (5 segundos)
-    if (elapsed < 8000) await pause(8000 - elapsed);
+    if (elapsed < 9000) await pause(9000 - elapsed);
         sp.remove();
 
     // Adiciona a etiqueta verde de sucesso
