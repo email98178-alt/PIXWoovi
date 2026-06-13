@@ -1751,8 +1751,9 @@ async function runConversation(startStep = 0) {
       }
     }
 
-    const elapsed = Date.now() - pixStartTime;
-    if (elapsed < 2000) await pause(2000 - elapsed);
+        const elapsed = Date.now() - pixStartTime;
+    // Aumentamos o tempo mínimo para 5000ms (5 segundos)
+    if (elapsed < 5000) await pause(5000 - elapsed);
     sp.remove();
 
     showDeliverySteps(pixCode);
