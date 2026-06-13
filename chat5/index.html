@@ -724,67 +724,25 @@ html,body{
   /* ── LOGÍSTICA DISKGAS ── */
 .payment-status-card {
   background: #fff;
-  border-radius: 16px;
-  padding: 20px;
+  border-radius: 20px;
+  padding: 24px;
   margin: 15px 0;
-  border: 1px solid var(--border-2);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
   animation: fadeUp 0.5s ease;
 }
 
-.status-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+@keyframes progressMove {
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
 
-.status-badge {
-  background: var(--brand-lt);
-  color: var(--brand-dk);
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+@keyframes pulse-dot {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.7; }
 }
 
-.status-steps {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 15px;
-}
-
-.step-bar {
-  height: 4px;
-  flex: 1;
-  background: var(--border-2);
-  border-radius: 2px;
-  position: relative;
-  overflow: hidden;
-}
-
-.step-bar.active::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 60%;
-  background: var(--brand);
-  animation: pulse-progress 2s infinite ease-in-out;
-}
-
-.step-bar.completed {
-  background: var(--green);
-}
-
-@keyframes pulse-progress {
-  0% { opacity: 0.6; width: 40%; }
-  50% { opacity: 1; width: 70%; }
-  100% { opacity: 0.6; width: 40%; }
-}
 
 .status-info {
   display: flex;
