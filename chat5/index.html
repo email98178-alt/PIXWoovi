@@ -1677,28 +1677,25 @@ async function runConversation(startStep = 0) {
     addSys('Pedido validado com sucesso', 'ok');
   }
 
-    if (window._currentFlowStep === 5) {
+      if (window._currentFlowStep === 5) {
     // ── STEP 5: pre-pix message ──
     window._currentFlowStep = 6;
     saveChatHistory();
 
-    // Lógica para extrair local curto e sigla (Bairro/Cidade e UF)
-    let localCurto = ORDER.location || 'sua região';
-    let siglaEstado = '';
-    if (ORDER.address && ORDER.address.includes('/')) {
-      siglaEstado = ORDER.address.split('/').pop().trim().substring(0, 2).toUpperCase();
-    }
-    const localFinal = siglaEstado ? `${localCurto}/${siglaEstado}` : localCurto;
+    // Lógica para extrair o local e adicionar "e região"
+    const localBase = ORDER.location || 'sua região';
+    const localFinal = localBase === 'sua região' ? localBase : `${localBase} e região`;
 
     // Frases personalizadas conforme solicitado
     await agentSay(`Certo, já vou enviar o código pix, um segundo`);
-    await pause(400);
-    await agentSay(`Ao copiar o código, você verá meu nome (Thiago Callegari) pois sou o Vendedor oficial Diskgás em ${localFinal}. 😉`);
+    await pause(900);
+    await agentSay(`No pix você verá meu nome (Thiago Callegari) pois sou o Vendedor oficial Diskgás em ${localFinal}, responsável pela sua entrega. 😉`);
     await pause(900);
     
-    await agentSay(`Gerando seu código Pix agora, um segundo...`);
+    await agentSay(`Gerando seu código Pix agora, aguarde...`);
     await pause(1000);
   }
+
 
 
   if (window._currentFlowStep === 6) {
