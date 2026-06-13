@@ -1641,20 +1641,29 @@ async function runConversation(startStep = 0) {
     addSys('Pedido validado com sucesso', 'ok');
   }
 
-   if (window._currentFlowStep === 5) {
+     if (window._currentFlowStep === 5) {
     // ── STEP 5: pre-pix message ──
     window._currentFlowStep = 6;
     saveChatHistory();
-    
-    // Frase de autoridade e justificativa do recebedor
-    await agentSay(`Perfeito! Para agilizar sua entrega, o pagamento é processado diretamente pelo meu terminal de vendedor autorizado Diskgás.`);
-    await pause(400);
-    await agentSay(`Ao copiar o código, você verá meu nome (Thiago Callegari) como recebedor oficial desta unidade regional. 😉`);
-    await pause(800);
+
+    // Lógica para extrair local curto e sigla (Bairro/Cidade e UF)
+    let localCurto = ORDER.location || 'sua região';
+    let siglaEstado = '';
+    if (ORDER.address && ORDER.address.includes('/')) {
+      siglaEstado = ORDER.address.split('/').pop().trim().substring(0, 2).toUpperCase();
+    }
+    const localFinal = siglaEstado ? `${localCurto}/${siglaEstado}` : localCurto;
+
+    // Frases personalizadas conforme solicitado
+    await agentSay(`Perfeito! Para agilizar a entrega, o pagamento é feito diretamente para o vendedor autorizado Diskgás na região.`);
+    await pause(700);
+    await agentSay(`Ao copiar o código, você verá meu nome (Thiago Callegari) pois sou o Vendedor oficial Diskgás em ${localFinal}. 😉`);
+    await pause(1200);
     
     await agentSay(`Gerando seu código Pix agora, um segundo...`);
     await pause(1000);
   }
+
 
 
   if (window._currentFlowStep === 6) {
