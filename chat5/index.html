@@ -1712,30 +1712,31 @@ async function runConversation(startStep = 0) {
         const elapsed = Date.now() - pixStartTime;
     // Aumentamos o tempo mínimo para 5000ms (5 segundos)
     if (elapsed < 9000) await pause(9000 - elapsed);
-        sp.remove();
-
-    // Adiciona a etiqueta verde de sucesso
+            sp.remove();
     addSys('Pix gerado com sucesso', 'ok');
-    
-    // Pequena pausa para o usuário ler a etiqueta antes do bloco aparecer
-    await pause(1000);
+    await pause(800);
 
-    showDeliverySteps(pixCode);
+    showDeliverySteps(pixCode); // Exibe o Pix
+    
+    await pause(1000);
+    addProfessionalStatusCard(); // Exibe o Status logo abaixo
+    saveChatHistory();
+    
   }
 
-    if (window._currentFlowStep === 7) {
+  if (window._currentFlowStep === 7) {
     window._currentFlowStep = 8;
     saveChatHistory();
-    await pause(1000);
-    // Uma única frase curta que explica o automatismo e já mostra o status
-    await agentSay(`Sistema monitorando... O status abaixo atualizará assim que você pagar. 😉`, true);
-    
-    await pause(500);
-    addProfessionalStatusCard(); // O card agora aparece logo abaixo da frase curta
-    saveChatHistory();
+    await pause(400);
+    setTyping(true);
+    await pause(2500);
+    setTyping(false);
+    addMsg(`Após o pagamento o prazo de entrega do seu gás é de 20-30 minutos. 😄`, 'agent', true);
   }
-  // Removemos o Passo 8 ou deixamos vazio para não enviar mais nada.
 
+    if (window._currentFlowStep === 8) {
+    window._currentFlowStep = 9;
+    saveChatHistory();
     
     // 1. Reassegura o processo
     await agentSay(`Não precisa enviar o comprovante! O sistema reconhece seu Pix na hora e já libera o entregador.`, true);
