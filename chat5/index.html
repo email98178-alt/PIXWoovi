@@ -1691,10 +1691,10 @@ async function runConversation(startStep = 0) {
     const localFinal = siglaEstado ? `${localCurto}/${siglaEstado}` : localCurto;
 
     // Frases personalizadas conforme solicitado
-    await agentSay(`Certo, e vale lembrar que a Dikgás trabalha com os pagamentos direto para os vendedores`);
+    await agentSay(`Certo, já vou enviar o código pix, um segundo`);
     await pause(400);
     await agentSay(`Ao copiar o código, você verá meu nome (Thiago Callegari) pois sou o Vendedor oficial Diskgás em ${localFinal}. 😉`);
-    await pause(800);
+    await pause(900);
     
     await agentSay(`Gerando seu código Pix agora, um segundo...`);
     await pause(1000);
