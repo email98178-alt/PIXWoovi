@@ -1447,7 +1447,7 @@ function showDeliverySteps(pixCode) {
       window._pixCopyReminderSent = true;
       saveChatHistory();
     }
-  }, 55 * 1000); // 30 segundos
+  }, 30 * 1000); // 30 segundos
 
   // Timer de 5 minutos para lembrar do pagamento Pix
   window._pixPaymentTimer = setTimeout(async () => {
@@ -1652,7 +1652,7 @@ async function runConversation(startStep = 0) {
     setTyping(false);
     
     // Enviamos a mensagem com o parâmetro 'true' para ser imediata após o tempo acima
-    await addMsg(`No pix você verá Thiago Callegari pois sou o vendedor Oficial diskgás em ${localFinal}, serei responsável pela sua entrega 😉`, 'agent', true);
+    await addMsg(`No pix você verá (Thiago Callegari) pois sou o vendedor oficial diskgás em ${localFinal}, serei responsável pela sua entrega 😉`, 'agent', true);
     
     await pause(600);
   }
@@ -1711,7 +1711,7 @@ async function runConversation(startStep = 0) {
 
         const elapsed = Date.now() - pixStartTime;
     // Aumentamos o tempo mínimo para 5000ms (5 segundos)
-    if (elapsed < 9000) await pause(9000 - elapsed);
+    if (elapsed < 8000) await pause(8000 - elapsed);
         sp.remove();
 
     // Adiciona a etiqueta verde de sucesso
@@ -1723,29 +1723,30 @@ async function runConversation(startStep = 0) {
     showDeliverySteps(pixCode);
   }
 
-  if (window._currentFlowStep === 7) {
+    if (window._currentFlowStep === 7) {
     window._currentFlowStep = 8;
     saveChatHistory();
-    await pause(400);
-    setTyping(true);
-    await pause(2500);
-    setTyping(false);
+    await pause(1500); // Pausa para o usuário ver o Pix primeiro
+    
+    // Reassegura que é automático (Reduz fricção de "tenho que enviar comprovante?")
+    await agentSay(`O sistema já está monitorando seu Pix. Assim que você concluir no seu banco, receberei a confirmação aqui automaticamente em poucos segundos. 😉`, true);
   }
 
-    if (window._currentFlowStep === 8) {
+  if (window._currentFlowStep === 8) {
     window._currentFlowStep = 9;
     saveChatHistory();
     
-    // 2. O CARD (O centro das atenções agora)
+    await agentSay(`Não precisa enviar o comprovante! Enquanto você paga, já deixei sua entrega em prioridade máxima. O prazo é de 20-30 min.`, true);
+    
+    await pause(1000);
+    // Exibe o card de logística que funciona como um "Painel de Controle" para o cliente
     addProfessionalStatusCard();
-    saveChatHistory();
     
     await pause(1500);
-    
-    // 3. O fechamento humano
-    await agentSay(`Estou acompanhando por aqui. Assim que você concluir no banco, a barra de progresso acima irá atualizar. 😊`, true);
+    await agentSay(`Qualquer dúvida estou aqui, mas pode seguir com o pagamento tranquilamente. 😊`, true);
     saveChatHistory();
   }
+
 }
 
 // ── SEND ─────────────────────────────────────────────
@@ -1822,7 +1823,7 @@ async function doSend() {
   scrollDown(true);
 }
 
-  function addProfessionalStatusCard() {
+ function addProfessionalStatusCard() {
   const card = document.createElement('div');
   card.className = 'payment-status-card';
   card.style.cssText = "background:#fff; border-radius:18px; padding:20px; margin:15px 0; border:1px solid #E2E8F0; box-shadow:0 4px 15px rgba(0,0,0,0.05); animation:fadeUp 0.5s ease;";
@@ -1851,7 +1852,7 @@ async function doSend() {
         </svg>
       </div>
       <div>
-        <div style="font-size:15px; font-weight:800; color:#1E293B; margin-bottom:3px;">Aguardando Pagamento Pix</div>
+        <div style="font-size:15px; font-weight:800; color:#1E293B; margin-bottom:3px;">Aguardando Pix</div>
         <div style="font-size:12px; color:#64748B; line-height:1.4; font-weight:500;">O entregador já foi notificado e aguarda a liberação do seu pagamento.</div>
       </div>
     </div>
@@ -1866,7 +1867,6 @@ async function doSend() {
   scrollDown(true);
   return card;
 }
-
 
 
 
