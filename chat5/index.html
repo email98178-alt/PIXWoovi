@@ -1730,17 +1730,11 @@ async function runConversation(startStep = 0) {
     setTyping(true);
     await pause(2500);
     setTyping(false);
-    addMsg(`Após o pagamento o prazo de entrega do seu gás é de 20-30 minutos. 😄`, 'agent', true);
   }
 
     if (window._currentFlowStep === 8) {
     window._currentFlowStep = 9;
     saveChatHistory();
-    
-    // 1. Reassegura o processo
-    await agentSay(`Não precisa enviar o comprovante! O sistema reconhece seu Pix na hora e já libera o entregador.`, true);
-    
-    await pause(800);
     
     // 2. O CARD (O centro das atenções agora)
     addProfessionalStatusCard();
