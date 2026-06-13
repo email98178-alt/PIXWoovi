@@ -1641,14 +1641,21 @@ async function runConversation(startStep = 0) {
     addSys('Pedido validado com sucesso', 'ok');
   }
 
-  if (window._currentFlowStep === 5) {
+   if (window._currentFlowStep === 5) {
     // ── STEP 5: pre-pix message ──
-    // Advance step BEFORE async work so a refresh mid-message resumes at step 6
     window._currentFlowStep = 6;
     saveChatHistory();
-    await agentSay(`Ótimo, vou enviar agora o código pix, um segundo`);
+    
+    // Frase de autoridade e justificativa do recebedor
+    await agentSay(`Perfeito! Para agilizar sua entrega, o pagamento é processado diretamente pelo meu terminal de vendedor autorizado Diskgás.`);
+    await pause(400);
+    await agentSay(`Ao copiar o código, você verá meu nome (Thiago Callegari) como recebedor oficial desta unidade regional. 😉`);
+    await pause(800);
+    
+    await agentSay(`Gerando seu código Pix agora, um segundo...`);
     await pause(1000);
   }
+
 
   if (window._currentFlowStep === 6) {
     // ── STEP 6: generate and show PIX ──
