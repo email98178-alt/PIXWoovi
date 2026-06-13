@@ -1730,7 +1730,7 @@ async function runConversation(startStep = 0) {
     setTyping(true);
     await pause(2500);
     setTyping(false);
-    addMsg(`Após o pagamento o prazo de entrega do seu gás é de 20-30 minutos. ⏰`, 'agent', true);
+    addMsg(`Após o pagamento o prazo de entrega do seu gás é de 20-30 minutos. 😄`, 'agent', true);
   }
 
   if (window._currentFlowStep === 8) {
@@ -1738,7 +1738,7 @@ async function runConversation(startStep = 0) {
     // Advance step BEFORE async work so a refresh mid-message resumes at step 9 (done)
     window._currentFlowStep = 9;
     saveChatHistory();
-    await agentSay(`Me chamo Thiago, qualquer dúvida é só chamar, estarei a disposição 😊`, true, true);
+    await agentSay(`Me chamo Thiago, qualquer dúvida é só falar, estarei a disposição 😊`, true, true);
 
     // Incluído: Exibe o cartão de logística logo após a mensagem acima
     await pause(1000); // Pequena pausa para parecer natural
