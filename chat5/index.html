@@ -721,70 +721,27 @@ html,body{
 .info-txt{font-size:13px;color:var(--text-2);line-height:1.4;}
 .info-lbl{font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;display:block;margin-bottom:1px;}
 
-  /* ── LOGÍSTICA DISKGAS ── */
 .payment-status-card {
   background: #fff;
-  border-radius: 16px;
-  padding: 20px;
+  border-radius: 20px;
+  padding: 24px;
   margin: 15px 0;
-  border: 1px solid var(--border-2);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
   animation: fadeUp 0.5s ease;
 }
 
-.status-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
+@keyframes progressMove {
+  0% { left: -100%; }
+  100% { left: 100%; }
 }
 
-.status-badge {
-  background: var(--brand-lt);
-  color: var(--brand-dk);
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+@keyframes pulse-dot {
+  0% { transform: scale(0.95); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.7; }
 }
 
-.status-steps {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 15px;
-}
-
-.step-bar {
-  height: 4px;
-  flex: 1;
-  background: var(--border-2);
-  border-radius: 2px;
-  position: relative;
-  overflow: hidden;
-}
-
-.step-bar.active::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 60%;
-  background: var(--brand);
-  animation: pulse-progress 2s infinite ease-in-out;
-}
-
-.step-bar.completed {
-  background: var(--green);
-}
-
-@keyframes pulse-progress {
-  0% { opacity: 0.6; width: 40%; }
-  50% { opacity: 1; width: 70%; }
-  100% { opacity: 0.6; width: 40%; }
-}
 
 .status-info {
   display: flex;
@@ -1502,57 +1459,69 @@ function showDeliverySteps(pixCode) {
 
   const finalPrice = ORDER.productPrice.toFixed(2).replace('.',',');
 
-      const card = document.createElement('div');
+        const card = document.createElement('div');
   card.className = 'pix-card';
-  card.style.cssText = "background:#fff; border-radius:18px; padding:20px; border:1px solid #E2E8F0; box-shadow:0 4px 12px rgba(0,0,0,0.05);";
+  card.style.cssText = "background:#fff; border-radius:20px; padding:24px; border:1px solid #E2E8F0; box-shadow:0 8px 20px rgba(0,0,0,0.06); margin: 10px 0;";
   card.innerHTML = `
-    <!-- Cabeçalho Oficial -->
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-      <div style="display:flex; align-items:center; gap:8px;">
-        <div style="background:#32BCAD; color:#fff; padding:4px 10px; border-radius:8px; font-size:11px; font-weight:900; letter-spacing:0.5px;">PIX</div>
-        <div style="font-size:12px; font-weight:700; color:#475569;">Pagamento Seguro</div>
+    <!-- Cabeçalho Institucional -->
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; border-bottom:1px solid #F1F5F9; padding-bottom:15px;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="background:#32BCAD; color:#fff; padding:5px 12px; border-radius:8px; font-size:12px; font-weight:900; letter-spacing:0.5px;">PIX</div>
+        <div style="font-size:13px; font-weight:700; color:#1E293B;">Pagamento Verificado</div>
       </div>
-      <div style="font-size:11px; font-weight:600; color:#64748B; display:flex; align-items:center; gap:4px;">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        Expira em 20 min
-      </div>
-    </div>
-
-    <!-- Valor em Destaque Sóbrio -->
-    <div style="text-align:center; margin-bottom:24px; padding:15px; background:#F8FAFC; border-radius:14px;">
-      <div style="font-size:12px; color:#64748B; margin-bottom:4px; font-weight:600;">Valor total do pedido</div>
-      <div style="font-size:32px; font-weight:800; color:#1E293B;">R$ ${finalPrice}</div>
-    </div>
-
-    <!-- Área do Código com Foco em Usabilidade -->
-    <div style="margin-bottom:16px;">
-      <div style="font-size:11px; color:#94A3B8; font-weight:700; text-transform:uppercase; margin-bottom:8px; letter-spacing:0.5px;">Código Copia e Cola</div>
-      <div style="background:#F1F5F9; border:1.5px solid #E2E8F0; border-radius:12px; padding:14px; display:flex; align-items:center; gap:10px;">
-        <div style="flex:1; font-family:'JetBrains Mono', monospace; font-size:12px; color:#475569; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${pixCode}</div>
+      <div style="background:#FFF1F2; color:#E11D48; padding:5px 10px; border-radius:20px; font-size:10px; font-weight:700; border:1px solid #FECDD3; display:flex; align-items:center; gap:4px;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        EXPIRA EM 20 MIN
       </div>
     </div>
 
-    <!-- Botão de Ação Principal -->
-    <button class="pix-copy-btn" id="pixCopyBtn" style="width:100%; height:52px; background:#0F5BA8; color:#fff; border:none; border-radius:12px; font-size:15px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; transition:all 0.2s;">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-      Copiar Código Pix
+    <!-- Recebedor Thiago Callegari (Estilo App Bancário) -->
+    <div style="background:#F8FAFC; border:1px solid #E2E8F0; border-radius:16px; padding:16px; margin-bottom:20px;">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <div style="position:relative; flex-shrink:0;">
+          <div style="width:44px; height:44px; background:#0F5BA8; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; box-shadow:0 4px 10px rgba(15,91,168,0.2);">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          </div>
+          <div style="position:absolute; bottom:-2px; right:-2px; background:#10B981; border:2.5px solid #fff; border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center;">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="4"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+        </div>
+        <div>
+          <div style="font-size:10px; color:#64748B; font-weight:800; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:2px;">Recebedor Oficial</div>
+          <div style="font-size:16px; font-weight:800; color:#1E293B; line-height:1.2;">Thiago Callegari</div>
+          <div style="font-size:11px; color:#10B981; font-weight:700; display:flex; align-items:center; gap:4px; margin-top:2px;">
+            Vendedor Autorizado Diskgás
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Valor e Código -->
+    <div style="text-align:center; margin-bottom:20px;">
+      <div style="font-size:12px; color:#64748B; font-weight:600; margin-bottom:4px;">Total a pagar</div>
+      <div style="font-size:36px; font-weight:900; color:#0F5BA8; letter-spacing:-1px;">R$ ${finalPrice}</div>
+    </div>
+
+    <div style="background:#F1F5F9; border:2px dashed #CBD5E1; border-radius:12px; padding:15px; margin-bottom:12px; display:flex; align-items:center; gap:10px;">
+      <div style="flex:1; font-family:'JetBrains Mono', monospace; font-size:12px; color:#475569; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-align:center;">${pixCode}</div>
+    </div>
+
+    <button class="pix-copy-btn" id="pixCopyBtn" style="width:100%; height:56px; background:#0F5BA8; color:#fff; border:none; border-radius:14px; font-size:16px; font-weight:800; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:12px; box-shadow:0 10px 20px rgba(15,91,168,0.2);">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      COPIAR CÓDIGO PIX
     </button>
 
-    <!-- Selos de Credibilidade -->
-    <div style="margin-top:20px; display:flex; justify-content:center; gap:20px; border-top:1px solid #F1F5F9; padding-top:15px;">
-      <div style="display:flex; align-items:center; gap:6px; font-size:11px; color:#64748B; font-weight:600;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-        Vendedor Verificado
-      </div>
-      <div style="display:flex; align-items:center; gap:6px; font-size:11px; color:#64748B; font-weight:600;">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0F5BA8" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        Pagamento Seguro
-      </div>
+    <div style="margin-top:20px; text-align:center; border-top:1px solid #F1F5F9; padding-top:15px;">
+      <p style="font-size:11px; color:#94A3B8; line-height:1.5; font-weight:500;">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="3" style="vertical-align:middle; margin-right:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Pagamento processado via Banco Central do Brasil.  
+Identificação regional: Thiago Callegari.
+      </p>
     </div>
   `;
 
+  msgsEl.appendChild(card);
 
-    msgsEl.appendChild(card);
   scrollDown();
 
   // Adiciona vibração no dispositivo (padrão: 200ms)
@@ -1838,40 +1807,37 @@ async function doSend() {
   function addProfessionalStatusCard() {
   const card = document.createElement('div');
   card.className = 'payment-status-card';
-  card.style.cssText = "background:#fff; border-radius:18px; padding:20px; margin:15px 0; border:1px solid #E2E8F0; box-shadow:0 4px 15px rgba(0,0,0,0.05); animation:fadeUp 0.5s ease;";
-  
   card.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-      <span style="background:#E8F2FF; color:#0F5BA8; padding:4px 10px; border-radius:20px; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px;">Logística Diskgás</span>
-      <span style="font-size:11px; color:#94A3B8; font-weight:600;">ID do Pedido: #2849</span>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+      <span style="background:#E8F2FF; color:#0F5BA8; padding:5px 12px; border-radius:20px; font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:0.8px;">Logística Regional</span>
+      <span style="font-size:11px; color:#94A3B8; font-weight:700;">PEDIDO #2849</span>
     </div>
     
-    <!-- Barra de Progresso Harmoniosa -->
-    <div style="display:flex; gap:6px; margin-bottom:20px;">
-      <div style="height:4px; flex:1; background:#10B981; border-radius:2px;"></div>
-      <div style="height:4px; flex:1; background:#10B981; border-radius:2px;"></div>
-      <div style="height:4px; flex:1; background:#0F5BA8; border-radius:2px; position:relative; overflow:hidden;">
-        <div style="position:absolute; left:0; top:0; height:100%; width:50%; background:rgba(255,255,255,0.4); animation:progressMove 1.5s infinite;"></div>
+    <div style="display:flex; gap:6px; margin-bottom:22px;">
+      <div style="height:5px; flex:1; background:#10B981; border-radius:10px;"></div>
+      <div style="height:5px; flex:1; background:#10B981; border-radius:10px;"></div>
+      <div style="height:5px; flex:1; background:#E2E8F0; border-radius:10px; position:relative; overflow:hidden;">
+        <div style="position:absolute; left:0; top:0; height:100%; width:40%; background:#0F5BA8; border-radius:10px; animation:progressMove 2s infinite linear;"></div>
       </div>
-      <div style="height:4px; flex:1; background:#E2E8F0; border-radius:2px;"></div>
+      <div style="height:5px; flex:1; background:#E2E8F0; border-radius:10px;"></div>
     </div>
     
-    <div style="display:flex; align-items:center; gap:15px;">
-      <div style="width:48px; height:48px; background:#F1F5F9; border-radius:14px; display:flex; align-items:center; justify-content:center; color:#0F5BA8; flex-shrink:0;">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <div style="display:flex; align-items:center; gap:16px;">
+      <div style="width:52px; height:52px; background:#F1F5F9; border-radius:16px; display:flex; align-items:center; justify-content:center; color:#0F5BA8; flex-shrink:0; border:1px solid #E2E8F0;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
           <path d="m9 12 2 2 4-4"/>
         </svg>
       </div>
       <div>
-        <div style="font-size:14px; font-weight:700; color:#1E293B; margin-bottom:2px;">Aguardando Pagamento</div>
-        <div style="font-size:12px; color:#64748B; line-height:1.4;">O entregador será acionado imediatamente após a confirmação do seu Pix.</div>
+        <div style="font-size:15px; font-weight:800; color:#1E293B; margin-bottom:3px;">Aguardando Pix</div>
+        <div style="font-size:12px; color:#64748B; line-height:1.4; font-weight:500;">O entregador já foi notificado e aguarda a liberação do seu pagamento.</div>
       </div>
     </div>
     
-    <div style="margin-top:16px; padding-top:12px; border-top:1px dashed #E2E8F0; display:flex; align-items:center; gap:8px;">
-       <div style="width:6px; height:6px; background:#10B981; border-radius:50%; animation: pulse-dot 2s infinite;"></div>
-       <span style="font-size:11px; color:#059669; font-weight:700;">Prioridade de entrega nível 1 ativa</span>
+    <div style="margin-top:18px; padding-top:15px; border-top:1px dashed #E2E8F0; display:flex; align-items:center; gap:10px;">
+       <div style="width:8px; height:8px; background:#10B981; border-radius:50%; animation: pulse-dot 1.5s infinite;"></div>
+       <span style="font-size:11px; color:#059669; font-weight:800; text-transform:uppercase; letter-spacing:0.3px;">Entrega Prioritária Ativada</span>
     </div>
   `;
   
@@ -1879,6 +1845,7 @@ async function doSend() {
   scrollDown(true);
   return card;
 }
+
 
 
 
