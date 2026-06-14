@@ -853,6 +853,15 @@ html,body{
   to { opacity: 1; transform: translateY(0); }
 }
 
+  /* Destaque profissional para o nome do vendedor */
+.vendedor-highlight {
+  color: var(--brand); /* Usa o azul principal do seu sistema */
+  font-weight: 700;    /* Deixa o nome em negrito */
+  padding: 0 2px;
+  border-bottom: 1.5px solid var(--brand-glow); /* Uma linha sutil embaixo */
+}
+
+
 </style>
 </head>
 <body>
@@ -1701,7 +1710,7 @@ async function runConversation(startStep = 0) {
     setTyping(false);
     
     // Enviamos a mensagem com o parâmetro 'true' para ser imediata após o tempo acima
-    await addMsg(`Você verá Thiago Callegari no pix, pois sou o vendedor diskgás oficial em ${localFinal}, serei responsável pela entrega 😃`, 'agent', true);
+    await addMsg(`Você verá <span class="vendedor-highlight">Thiago Callegari</span> no pix, pois sou o vendedor diskgás oficial em ${localFinal}, serei responsável pela entrega 😃`, 'agent', true);
     
     await pause(600);
   }
